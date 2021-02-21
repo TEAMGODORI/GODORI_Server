@@ -7,20 +7,24 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.TEXT(),
             allowNull: false,
         },
-        user_id: { // 댓글 남긴 사용자
-            type: DataTypes.INTEGER,
-            reference: {
-                model: User,
-                key: 'id',
-            }
-        },
-        certi_id: { // 댓 달린 인증게시물
-            type: DataTypes.INTEGER,
-            reference: {
-                model: Certification,
-                key: 'id',
-            }
+        parse_date: { // 몇분전 파싱
+            type: DataTypes.STRING(20),
+            allowNull:true,
         }
+        // user_id: { // 댓글 남긴 사용자
+        //     type: DataTypes.INTEGER,
+        //     reference: {
+        //         model: User,
+        //         key: 'id',
+        //     }
+        // },
+        // certi_id: { // 댓 달린 인증게시물
+        //     type: DataTypes.INTEGER,
+        //     reference: {
+        //         model: Certification,
+        //         key: 'id',
+        //     }
+        // }
     }, {
         freezeTableName: true,
         timestamps: true,

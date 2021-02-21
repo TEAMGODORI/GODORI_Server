@@ -25,7 +25,7 @@ db.GroupSport = require('./group_sport')(sequelize, Sequelize);
 db.CertiSport = require('./certi_sport')(sequelize, Sequelize);
 db.CertiImage = require('./certi_image')(sequelize, Sequelize);
 
-// 댓글, 스포츠, 인증이미지는 테이블, 좋아요와 조인, 스포츠어쩌구는 관계 - 테이블은 외래키를 index.js에서 연결하고, 멤버는 각 js파일에서 reference로 연결한다
+// 외래키 연결 - reference로 연결하든, index.js에서 연결하든 상관 없음, 둘 다 써도 됨, 가독성을 위해서라면 둘 다?
 
 /* 1:N User : Certification */
 db.User.hasMany(db.Certification, { foreignKey: 'user_id'});
