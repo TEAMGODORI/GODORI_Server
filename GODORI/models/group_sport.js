@@ -3,14 +3,14 @@ const Sport = require('./sport')
 
 module.exports = (sequelize, DataTypes) => {
     return sequelize.define('GroupSport', {
-        user_id: { // 좋아요 한 사용자
+        group_id: { // 그룹 아이디
             type: DataTypes.INTEGER,
             reference: {
                 model: Group,
                 key: 'id',
             }
         },
-        sport_id: { // 좋아요 달린 인증게시물
+        sport_id: { // 그룹 운동 취향 종류
             type: DataTypes.INTEGER,
             reference: {
                 model: Sport,
