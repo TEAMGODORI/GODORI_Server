@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: true,
         },
         parse_date: { // 몇분전 파싱
-            type: DataTypes.STRING(20),
+            type: DataTypes.DATE,
             allowNull:true,
         }
     }, {
