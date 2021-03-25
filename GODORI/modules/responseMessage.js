@@ -17,6 +17,7 @@ module.exports = {
 
     /*Group */
     NO_GROUP_NAME : '그룹 제목이 비었습니다',
+    CREATE_GROUP_SUCCESS : '그룹 생성 성공',
 
     /* 서버에러 */
     INTERNAL_SERVER_ERROR: "서버 내부 오류",
