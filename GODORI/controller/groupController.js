@@ -2,7 +2,7 @@ const util = require('../modules/util');
 const code = require('../modules/statusCode');
 const message = require('../modules/responseMessage');
 
-const { User, Group, GroupSport, Sport, Join } = require('../models');
+const { User, Group, Join } = require('../models');
 const dateService = require('../service/dateService');
 
 module.exports = {
@@ -11,7 +11,7 @@ module.exports = {
         try {
             // sport_id와 group_maker 는 다른 테이블에 저장
             const { group_name, recruit_num, is_public, intro_comment,
-            ex_cycle, ex_intensity, sports, group_maker } = req.body;
+            ex_cycle, ex_intensity, sport, group_maker } = req.body;
 
             // null 값 처리
             if (!group_name || !recruit_num || !group_maker) {
@@ -32,6 +32,7 @@ module.exports = {
                 intro_comment: intro_comment, // 그룹 소개 코멘트
                 ex_cycle: ex_cycle, // 그룹 인증 주기
                 ex_intensity: ex_intensity, // 그룹 인증 강도
+                group_sport: sport // 그룹 운동 종목
             });
 
             // 방금 생성한 그룹 아이디 추출
@@ -41,24 +42,6 @@ module.exports = {
                 },
                 attributes : ['id']
             });
-
-            const groupSports = sports.split(",");
-            for (sport of groupSports) {
-
-                // 스포츠 아이디 find
-                let findSport = await Sport.findOne({
-                    where : {
-                        name: sport
-                    },
-                    attributes : ['id']
-                })
-
-                // 그룹 운동종목 취향 저장
-                let newGroupSports = await GroupSport.create({
-                    group_id: findNewGroup.id,
-                    sport_id: findSport.id
-                });
-            }
 
             const groupMakerId = await User.findOne({
                 where : {

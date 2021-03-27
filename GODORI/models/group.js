@@ -29,6 +29,10 @@ module.exports = (sequelize, DataTypes) => {
         parse_date: { // 몇분전 파싱
             type: DataTypes.DATE,
             allowNull:true,
+        },
+        group_sport: {
+            type: DataTypes.STRING,
+            allowNull:true,
         }
     }, {
         freezeTableName: true,
