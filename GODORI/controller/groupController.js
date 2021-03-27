@@ -11,7 +11,7 @@ module.exports = {
         try {
             // sport_id와 group_maker 는 다른 테이블에 저장
             const { group_name, recruit_num, is_public, intro_comment,
-            ex_cycle, ex_intensity, sport, group_maker } = req.body;
+            ex_cycle, ex_intensity, group_sport, group_maker } = req.body;
 
             // null 값 처리
             if (!group_name || !recruit_num || !group_maker) {
@@ -32,7 +32,7 @@ module.exports = {
                 intro_comment: intro_comment, // 그룹 소개 코멘트
                 ex_cycle: ex_cycle, // 그룹 인증 주기
                 ex_intensity: ex_intensity, // 그룹 인증 강도
-                group_sport: sport // 그룹 운동 종목
+                group_sport: group_sport // 그룹 운동 종목
             });
 
             // 방금 생성한 그룹 아이디 추출
@@ -43,7 +43,7 @@ module.exports = {
                 attributes : ['id']
             });
 
-            const groupMakerId = await User.findOne({
+            const findGroupMaker = await User.findOne({
                 where : {
                     name : group_maker,
                 },
@@ -52,11 +52,11 @@ module.exports = {
 
             // 그룹 생성한 사람 그룹에 가입
             const groupMakerJoin = await Join.create({
-                user_id : groupMakerId.id,
+                user_id : findGroupMaker.id,
                 group_id : findNewGroup.id,
             });
 
-            res.status(code.OK).send(util.success(code.OK, message.CREATE_GROUP_SUCCESS, newGroup));
+            res.status(code.OK).send(util.success(code.OK, message.CREATE_GROUP_SUCCESS));
 
         } catch (err) {
             console.error(err);
