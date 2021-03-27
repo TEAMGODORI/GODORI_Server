@@ -21,7 +21,6 @@ db.Like = require('./like')(sequelize, Sequelize);
 db.Comment = require('./comment')(sequelize, Sequelize);
 db.Sport = require('./sport')(sequelize, Sequelize);
 db.UserSport = require('./user_sport')(sequelize, Sequelize);
-db.GroupSport = require('./group_sport')(sequelize, Sequelize);
 db.CertiSport = require('./certi_sport')(sequelize, Sequelize);
 db.CertiImage = require('./certi_image')(sequelize, Sequelize);
 
@@ -59,10 +58,6 @@ db.Group.belongsToMany(db.User, { through: 'Join', as: 'Joiner', foreignKey: 'gr
 /* User : Sport => user_sport */
 db.User.belongsToMany(db.Sport, { through: 'UserSport', as: 'Chosen', foreignKey : 'user_id'});
 db.Sport.belongsToMany(db.User, { through: 'UserSport', as: 'Chooser', foreignKey : 'sport_id'});
-
-/* Group : Sport => group_sport */
-db.Group.belongsToMany(db.Sport, { through: 'GroupSport', as: 'Selected', foreignKey : 'group_id'});
-db.Sport.belongsToMany(db.Group, { through: 'GroupSport', as: 'Selector', foreignKey : 'sport_id'});
 
 /* Certification : Sport => certi_sport */
 db.Certification.belongsToMany(db.Sport, { through: 'CertiSport', as: 'Done', foreignKey : 'certi_id'});

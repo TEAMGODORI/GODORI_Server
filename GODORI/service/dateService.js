@@ -1,4 +1,4 @@
-const { Group, GroupSport }  = require('../models/');
+const { Group }  = require('../models/');
 const moment = require('moment');
 
 const getTodayDate = async () => {
