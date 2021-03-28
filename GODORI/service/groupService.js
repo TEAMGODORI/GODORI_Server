@@ -73,22 +73,32 @@ module.exports = {
                 }
             });
 
-            // 그룹 만든 사람
-            let groupMaker = await Join.findOne({
+            // 그룹멤버들
+            let groupMember = await Join.findAll({
                 where : {
                     group_id : group_id,
                 },
                 // 유저 아이디 오름차순으로 정렬한 뒤 리밋 1
-                attributes : ['created_at', 'user_id'],
+                attributes : ['created_at', 'user_id', 'achive_rate'],
                 order : ['created_at'],
+                raw : true,
             });
-            console.log(groupMaker);
-            groupMaker = await User.findByPk(groupMaker.user_id);
+            const groupMemberId = groupMember.map(m => m.user_id);
+
+            // 그룹 만든 사람
+            let groupMaker = groupMemberId[0];
+            groupMaker = await User.findByPk(groupMaker);
         
-            // 이번주 평균 달성률 
+            // 이번주 평균 달성률
+            let sum = 0
+            for (member of groupMember) {
+                sum = sum + member.achive_rate;
+            }
+            const achiveRate = parseInt(sum / groupMember.length);
 
             group.recruited_num = recruitedNum;
             group.group_maker = groupMaker.name;
+            group.achive_rate = achiveRate;
             
     
             const result = []
