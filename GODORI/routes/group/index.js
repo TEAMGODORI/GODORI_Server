@@ -8,5 +8,7 @@ router.post('/', groupController.postNewGroup);
 router.get('/list/:userName', groupController.getGroupList);
 // 그룹 상세보기
 router.get('/detail/:groupId', groupController.getGroupDetail);
+// 그룹 가입하기
+router.post('/join/:userName', groupController.groupJoin);
 
 module.exports = router;
