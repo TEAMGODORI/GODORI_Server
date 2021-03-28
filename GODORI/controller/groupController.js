@@ -127,5 +127,32 @@ module.exports = {
             console.error(err);
             return res.status(code.INTERNAL_SERVER_ERROR).send(util.fail(code.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR));
         }
+    },
+
+    getGroupDetail: async (req, res) => {
+
+        // parameter로 group_id 받아오기
+        // Group.findByPk(group_id) 
+        // attributes : [group_name, intro_comment, ex_cycle,
+        // ex_intensity, group_sport, created_at, recruit_num]
+        // 추가적으로 줘야하는 정보 -> group_maker, achive_rate, recruited_num 
+
+        try {
+
+            const group_id = req.params.groupId;
+
+            // null 값 처리
+            if (!group_id) {
+                return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.NULL_VALUE));
+            }
+
+            const groupDetail = await groupService.formatGroupDetail(group_id);
+
+            res.status(code.OK).send(util.success(code.OK, message.GET_GROUPDETAIL_SUCCESS, groupDetail));
+
+        } catch (err) {
+            console.error(err);
+            return res.status(code.INTERNAL_SERVER_ERROR).send(util.fail(code.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR));
+        }
     }
 }
