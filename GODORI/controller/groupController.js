@@ -8,7 +8,7 @@ const dateService = require('../service/dateService');
 const groupService = require('../service/groupService');
 
 module.exports = {
-    postNewGroup: async (req, res) => {
+    postNewGroup : async (req, res) => {
 
         try {
             // sport_id와 group_maker 는 다른 테이블에 저장
@@ -66,7 +66,7 @@ module.exports = {
         }
     }, 
 
-    getGroupList: async (req, res) => {
+    getGroupList : async (req, res) => {
 
         // 쿼리로 name 가져오기 O
         // name 에 해당하는 유저 찾고, 주기, 강도 가져오기 O
@@ -129,7 +129,7 @@ module.exports = {
         }
     },
 
-    getGroupDetail: async (req, res) => {
+    getGroupDetail : async (req, res) => {
 
         // parameter로 group_id 받아오기
         // Group.findByPk(group_id) 
@@ -150,6 +150,43 @@ module.exports = {
 
             res.status(code.OK).send(util.success(code.OK, message.GET_GROUPDETAIL_SUCCESS, groupDetail));
 
+        } catch (err) {
+            console.error(err);
+            return res.status(code.INTERNAL_SERVER_ERROR).send(util.fail(code.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR));
+        }
+    },
+
+    groupJoin : async (req, res) => {
+
+        // userName param 으로 받아옴
+        // groupId query 로 받아옴
+
+        try {
+
+            const user_name = req.params.userName;
+            const group_id = req.query.groupId;
+
+            // null 값 처리
+            if (!group_id || !user_name) {
+                return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.NULL_VALUE));
+            }
+
+            let user_id = await User.findOne({
+                where :{
+                    name : user_name
+                },
+                attributes : ['id']
+            });
+            user_id = user_id.id;
+
+            const join = await Join.create({
+                user_id,
+                group_id,
+                achive_rate : 0
+            })
+
+            res.status(code.OK).send(util.success(code.OK, message.GROUP_JOIN_SUCCESS));
+            
         } catch (err) {
             console.error(err);
             return res.status(code.INTERNAL_SERVER_ERROR).send(util.fail(code.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR));
