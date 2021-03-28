@@ -17,6 +17,10 @@ module.exports = (sequelize, DataTypes) => {
                 model: Group,
                 key: 'id',
             }
+        },
+        achive_rate: { // 달성률
+            type: DataTypes.INTEGER,
+            allowNull: true,
         }
     }, {
         freezeTableName: true,
