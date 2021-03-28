@@ -26,16 +26,12 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING(10),
             allowNull: true,
         },
-        height: { // 키
-            type: DataTypes.DOUBLE,
+        ex_cycle: { // 운동 주기
+            type: DataTypes.INTEGER,
             allowNull: true,
         },
-        weight: { // 몸무게
-            type: DataTypes.DOUBLE,
-            allowNull: true,
-        },
-        goal: { // 운동 목표
-            type: DataTypes.STRING(50),
+        ex_intensity: { // 운동 목표
+            type: DataTypes.STRING(10),
             allowNull: true,
         }
     }, {
