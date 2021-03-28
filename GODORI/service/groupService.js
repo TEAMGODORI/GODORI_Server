@@ -100,11 +100,8 @@ module.exports = {
             group.group_maker = groupMaker.name;
             group.achive_rate = achiveRate;
             
-    
-            const result = []
-            result.push(group)
 
-            return result
+            return group;
 
         } catch (err) {
             throw err;
