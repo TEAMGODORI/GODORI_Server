@@ -21,6 +21,10 @@ module.exports = (sequelize, DataTypes) => {
         achive_rate: { // 달성률
             type: DataTypes.INTEGER,
             allowNull: true,
+        },
+        week_count: { // 인증횟수
+            type: DataTypes.INTEGER,
+            allowNull: true,
         }
     }, {
         freezeTableName: true,
