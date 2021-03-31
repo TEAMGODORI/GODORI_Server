@@ -182,7 +182,8 @@ module.exports = {
             const join = await Join.create({
                 user_id,
                 group_id,
-                achive_rate : 0
+                achive_rate : 0,
+                week_count : 0
             })
 
             res.status(code.OK).send(util.success(code.OK, message.GROUP_JOIN_SUCCESS));
