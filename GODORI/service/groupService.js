@@ -21,7 +21,6 @@ const formatGroup = async (group) => {
 
 module.exports = {
 
-    // async 함수인데 자꾸 노란색으로 뜸 원래 파란색으로 떠야함 
     formatGroupList : async (user, userSport) => {
 
         try {

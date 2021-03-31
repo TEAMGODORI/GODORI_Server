@@ -22,6 +22,9 @@ module.exports = {
     GET_GROUPDETAIL_SUCCESS : '그룹 상세내용 불러오기 성공',
     GROUP_JOIN_SUCCESS : '그룹 가입하기 성공',
 
+    /*Certi */
+    NEW_CERTI_SUCCESS : '인증 게시물 올리기 성공',
+
     /* 서버에러 */
     INTERNAL_SERVER_ERROR: "서버 내부 오류",
   }

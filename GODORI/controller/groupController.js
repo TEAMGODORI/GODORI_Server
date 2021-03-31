@@ -28,13 +28,13 @@ module.exports = {
 
             // 그룹 생성
             const newGroup = await Group.create({
-                group_name: group_name, // 그룹 이름
-                recruit_num: recruit_num, // 그룹 인원
-                is_public: is_public, // 그룹 공개 여부
-                intro_comment: intro_comment, // 그룹 소개 코멘트
-                ex_cycle: ex_cycle, // 그룹 인증 주기
-                ex_intensity: ex_intensity, // 그룹 인증 강도
-                group_sport: group_sport // 그룹 운동 종목
+                group_name, // 그룹 이름
+                recruit_num, // 그룹 인원
+                is_public, // 그룹 공개 여부
+                intro_comment, // 그룹 소개 코멘트
+                ex_cycle, // 그룹 인증 주기
+                ex_intensity, // 그룹 인증 강도
+                group_sport // 그룹 운동 종목
             });
 
             // 방금 생성한 그룹 아이디 추출

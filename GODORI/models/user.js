@@ -22,16 +22,16 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING(100),
             allowNull: true,
         },
-        sex: { // 성별
-            type: DataTypes.STRING(10),
-            allowNull: true,
-        },
         ex_cycle: { // 운동 주기
             type: DataTypes.INTEGER,
             allowNull: true,
         },
         ex_intensity: { // 운동 목표
             type: DataTypes.STRING(10),
+            allowNull: true,
+        },
+        current_group_id: { // 현재 속한 그룹 id
+            type: DataTypes.INTEGER,
             allowNull: true,
         }
     }, {
