@@ -2,10 +2,9 @@ const util = require('../modules/util');
 const code = require('../modules/statusCode');
 const message = require('../modules/responseMessage');
 
-const { User, Group, Join, UserSport, Sport, Certification } = require('../models');
+const { User, Group, Join, UserSport, Sport, Certification, CertiImage } = require('../models');
 const {Op} = require('sequelize');
 const dateService = require('../service/dateService');
-const countService = require('../service/countService');
 const certiService = require('../service/certiService');
 
 module.exports = {
@@ -26,14 +25,13 @@ module.exports = {
         try {
             // sport_id와 group_maker 는 다른 테이블에 저장
             const user_name = req.params.userName;
-            const { ex_time, ex_intensity, ex_evalu, ex_comment } = req.body;
-            const images = req.files;
+            let { ex_time, ex_intensity, ex_evalu, ex_comment } = req.body;
+            const imageArray = await certiService.getImageUrl(req.files);
 
             // null 값 처리
             if (!user_name) {
                 return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.NULL_VALUE));
             }
-
             if (!ex_time) {
                 ex_time = "20분";
             } else if (!ex_intensity) {
@@ -55,9 +53,8 @@ module.exports = {
                 user_id : user.id,
                 group_id : user.current_group_id,
             })
-
-            // 나중에 인증횟수 추가 하는거 구현)
-            const addCountRate = await certiService.countAndRate();
+            const addImages = await certiService.addImages(newCerti.id, imageArray);
+            const addCountRate = await certiService.countAndRate(user.id, user.current_group_id);
 
             res.status(code.OK).send(util.success(code.OK, message.NEW_CERTI_SUCCESS));
 
