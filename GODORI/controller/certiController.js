@@ -2,7 +2,7 @@ const util = require('../modules/util');
 const code = require('../modules/statusCode');
 const message = require('../modules/responseMessage');
 
-const { User, Group, Join, UserSport, Sport, Certification, CertiImage } = require('../models');
+const { User, Group, Join, UserSport, Sport, Certification, CertiImage, CertiSport } = require('../models');
 const {Op} = require('sequelize');
 const dateService = require('../service/dateService');
 const certiService = require('../service/certiService');
@@ -25,7 +25,7 @@ module.exports = {
         try {
             // sport_id와 group_maker 는 다른 테이블에 저장
             const user_name = req.params.userName;
-            let { ex_time, ex_intensity, ex_evalu, ex_comment } = req.body;
+            let { ex_time, ex_intensity, ex_evalu, ex_comment, certi_sport } = req.body;
             const imageArray = await certiService.getImageUrl(req.files);
 
             // null 값 처리
@@ -53,6 +53,25 @@ module.exports = {
                 user_id : user.id,
                 group_id : user.current_group_id,
             })
+
+            const certiSports = certi_sport.split(",");
+            for (sport of certiSports) {
+
+                // 스포츠 아이디 find
+                let sportName = await Sport.findOne({
+                    where : {
+                        name: sport
+                    },
+                    attributes : ['id']
+                })
+
+                // 그룹 운동종목 취향 저장
+                let newCertiSports = await CertiSport.create({
+                    certi_id: newCerti.id,
+                    sport_id: sportName.id
+                });
+            }
+
             const addImages = await certiService.addImages(newCerti.id, imageArray);
             const addCountRate = await certiService.countAndRate(user.id, user.current_group_id);
 
