@@ -1,4 +1,4 @@
-const { Group, Certification, CertiImage, Join, User  }  = require('../models/');
+const { Group, Certification, CertiImage, Join, User, CertiSport  }  = require('../models/');
 const dateService = require('./dateService');
 const {Op} = require('sequelize');
 
@@ -75,6 +75,49 @@ module.exports = {
         }
 
     },
+
+    formatCerti : async (certi_id, certi) => {
+        try {
+
+            // certiSport 운동종목 
+            // user 프로필 이미지, 이름
+
+            console.log(certi.user_id)
+            // 인증 게시물 올린 유저의 이름, 프로필 이미지
+            const certiUser = await User.findOne({
+                where : {
+                    id : certi.user_id
+                },
+                attributes : ['id', 'name', 'profile_img'],
+                raw : true
+            });
+            
+
+            // 인증 게시물에 포함된 인증 사진들
+            let images = await CertiImage.findAll({
+                where : {
+                    certi_id,
+                },
+                attributes : ['image']
+            });
+            images = images.map(i => i.image)
+            const certiImages = images.join()
+
+            // 아직 인증게시물 올리기에 복수 스포츠 선택 반영 안됨
+            // const certiSport = await CertiSport.findAll({
+
+            // })
+
+            certi.user_name = certiUser.name;
+            certi.user_image = certiUser.profile_img;
+            certi.certi_images = certiImages;
+
+            return certi
+
+        } catch (err) {
+            throw err;
+        }
+    }
 
 
 }
