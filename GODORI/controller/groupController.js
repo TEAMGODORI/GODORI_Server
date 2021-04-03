@@ -194,5 +194,53 @@ module.exports = {
             console.error(err);
             return res.status(code.INTERNAL_SERVER_ERROR).send(util.fail(code.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR));
         }
+    },
+
+    getLeftExercise : async (req, res) => {
+
+        // userName param 으로 받아옴
+
+        try {
+
+            const user_name = req.params.userName;
+
+            // null 값 처리
+            if (!user_name) {
+                return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.NULL_VALUE));
+            }
+
+            const user = await User.findOne({
+                where :{
+                    name : user_name
+                },
+                attributes : ['id', 'current_group_id']
+            });
+
+            let current = await Join.findOne({
+                where : {
+                    user_id : user.id,
+                    group_id : user.current_group_id
+                },
+                attributes : ['week_count']
+            })
+            current = current.week_count;
+
+            let all = await Group.findByPk(user.current_group_id, {
+                attributes : ['ex_cycle']
+            })
+            all = all.ex_cycle
+
+            let leftCount = 0
+            if (all > current) {
+                leftCount = all - current;
+            }
+            console.log(all, current);
+
+            res.status(code.OK).send(util.success(code.OK, message.GET_LEFT_COUNT_SUCCESS, leftCount));
+            
+        } catch (err) {
+            console.error(err);
+            return res.status(code.INTERNAL_SERVER_ERROR).send(util.fail(code.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR));
+        }
     }
 }
