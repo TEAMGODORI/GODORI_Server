@@ -120,8 +120,10 @@ module.exports = {
 
             const groupList = await groupService.formatGroupList(user, userSport);
 
+            const userSportString = userSport.join()
+            user.sports = userSportString
 
-            res.status(code.OK).send(util.success(code.OK, message.GET_GROUPLIST_SUCCESS, groupList));
+            res.status(code.OK).send(util.success(code.OK, message.GET_GROUPLIST_SUCCESS, {user, groupList}));
 
         } catch (err) {
             console.error(err);
