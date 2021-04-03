@@ -123,7 +123,7 @@ module.exports = {
             const userSportString = userSport.join()
             user.sports = userSportString
 
-            res.status(code.OK).send(util.success(code.OK, message.GET_GROUPLIST_SUCCESS, {user, groupList}));
+            res.status(code.OK).send(util.success(code.OK, message.GET_GROUPLIST_SUCCESS, {user, group_list: groupList}));
 
         } catch (err) {
             console.error(err);
