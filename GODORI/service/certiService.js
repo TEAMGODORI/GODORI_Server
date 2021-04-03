@@ -49,7 +49,6 @@ module.exports = {
                 attributes : ['achive_rate', 'week_count']
             });
             const count = countrate.week_count + 1;
-            console.log(count)
             
             const cycle = await Group.findOne({
                 where : {
@@ -58,7 +57,6 @@ module.exports = {
                 attributes : ['ex_cycle']
             });
             const achive_rate = parseInt((count/cycle.ex_cycle)*100);
-            console.log(achive_rate)
 
             //const update = {week_count:count, achive_rate}
             const updateCountrate = Join.update({week_count:count, achive_rate:achive_rate}, {
