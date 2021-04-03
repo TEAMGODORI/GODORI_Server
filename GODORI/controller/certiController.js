@@ -63,4 +63,36 @@ module.exports = {
             return res.status(code.INTERNAL_SERVER_ERROR).send(util.fail(code.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR));
         }
     }, 
+
+    getCertiDetail : async (req, res) => {
+
+        // certi ID 를 받아옴
+        // ex_time, ex_intensity, ex_evalu, ex_comment
+        
+
+        try {
+            const certi_id = req.params.certiId;
+
+            // null 값 처리
+            if (!certi_id) {
+                return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.NULL_VALUE));
+            }
+
+            const certi = await Certification.findOne({
+                where : {
+                    id : certi_id
+                },
+                attributes : ['ex_time', 'ex_intensity', 'ex_evalu', 'ex_comment', 'user_id'],
+                raw : true,
+            })
+
+            const formatCerti = await certiService.formatCerti(certi_id, certi);
+
+            res.status(code.OK).send(util.success(code.OK, message.GET_CERTIDETAIL_SUCCESS, formatCerti));
+
+        } catch (err) {
+            console.error(err);
+            return res.status(code.INTERNAL_SERVER_ERROR).send(util.fail(code.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR));
+        }
+    }
 }
