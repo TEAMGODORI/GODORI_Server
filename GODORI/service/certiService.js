@@ -122,9 +122,9 @@ module.exports = {
             sportsName = sportsName.map(s => s.name)
             const certiSport = sportsName.join()
 
-            certi.sports = certiSport;
             certi.user_name = certiUser.name;
             certi.user_image = certiUser.profile_img;
+            certi.sports = certiSport;
             certi.certi_images = certiImages;
 
             return certi
