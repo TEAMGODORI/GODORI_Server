@@ -150,9 +150,9 @@ module.exports = {
                 certi.user_name = certiUser.name;
                 
                 if (certiUser.profile_img) {
-                    certi.user_image = certiUser.profile_img;
+                    certi.user_img = certiUser.profile_img;
                 } else {
-                    certi.user_image = "";
+                    certi.user_img = "";
                 }
 
                 // certi list 에는 id와 user_id 리스트가 잇음 ["","",""]
@@ -164,7 +164,10 @@ module.exports = {
                 });
 
                 if (certiImage) {
-                    certi.image = certiImage.image;
+                    certiImage = certiImage.image;
+                    certiImage = certiImage.split(",");
+                    certiImage = certiImage[0];
+                    certi.image = certiImage;
                 } else {
                     certi.image = "";
                 }
