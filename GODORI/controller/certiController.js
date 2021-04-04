@@ -117,11 +117,6 @@ module.exports = {
 
     getCertiByCal : async (req, res) => {
 
-        // 어느 날짜인지 파라미터 혹은 쿼리로 받아야함
-        // 해당 날짜 (created_at)이 받아온 날짜와 일치하는 인증게시물에서 첫대표 image와 user_id findAll
-        // user_id로 user_name , profile_img get
-
-
         try {
 
             const date = req.query.date;
