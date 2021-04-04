@@ -1,4 +1,4 @@
-const { Group, Certification, CertiImage, Join, User, CertiSport  }  = require('../models/');
+const { Group, Certification, CertiImage, Join, User, CertiSport, Sport  }  = require('../models/');
 const dateService = require('./dateService');
 const {Op} = require('sequelize');
 
@@ -101,11 +101,28 @@ module.exports = {
             images = images.map(i => i.image)
             const certiImages = images.join()
 
-            // 아직 인증게시물 올리기에 복수 스포츠 선택 반영 안됨
-            // const certiSport = await CertiSport.findAll({
+            // 운동 종목
+            let sports = await CertiSport.findAll({
+                where : {
+                    certi_id,
+                },
+                attributes : ['sport_id']
+            });
+            sports = sports.map(s => s.sport_id)
 
-            // })
+            let sportsName = await Sport.findAll({
+                where : {
+                    id : {
+                        [Op.or] : [sports],
+                    }
+                },
+                attributes : ['name'],
+                raw : true
+            });
+            sportsName = sportsName.map(s => s.name)
+            const certiSport = sportsName.join()
 
+            certi.sports = certiSport;
             certi.user_name = certiUser.name;
             certi.user_image = certiUser.profile_img;
             certi.certi_images = certiImages;
