@@ -26,6 +26,7 @@ module.exports = {
     /*Certi */
     NEW_CERTI_SUCCESS : '인증 게시물 올리기 성공',
     GET_CERTIDETAIL_SUCCESS : '인증 게시물 상세보기 성공',
+    GET_CERTILIST_SUCCESS : '해당 날짜 인증 게시물 가져오기 성공',
 
     /* 서버에러 */
     INTERNAL_SERVER_ERROR: "서버 내부 오류", 

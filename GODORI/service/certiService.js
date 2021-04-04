@@ -132,6 +132,50 @@ module.exports = {
         } catch (err) {
             throw err;
         }
+    },
+
+    formatCertiList : async (certiList) => {
+
+        try {
+
+            for (certi of certiList) {
+                
+                let certiUser = await User.findOne({
+                    where : {
+                        id : certi.user_id
+                    },
+                    attributes : ['name', 'profile_img']
+                });
+                
+                certi.user_name = certiUser.name;
+                
+                if (certiUser.profile_img) {
+                    certi.user_image = certiUser.profile_img;
+                } else {
+                    certi.user_image = "";
+                }
+
+                // certi list 에는 id와 user_id 리스트가 잇음 ["","",""]
+                let certiImage = await CertiImage.findOne({
+                    where : {
+                        certi_id : certi.id
+                    }, 
+                    attributes : ['image']
+                });
+
+                if (certiImage) {
+                    certi.image = certiImage.image;
+                } else {
+                    certi.image = "";
+                }
+
+            }
+
+            return certiList;
+
+        } catch (err) {
+            throw err;
+        }
     }
 
 

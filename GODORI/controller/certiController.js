@@ -113,5 +113,40 @@ module.exports = {
             console.error(err);
             return res.status(code.INTERNAL_SERVER_ERROR).send(util.fail(code.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR));
         }
+    },
+
+    getCertiByCal : async (req, res) => {
+
+        // 어느 날짜인지 파라미터 혹은 쿼리로 받아야함
+        // 해당 날짜 (created_at)이 받아온 날짜와 일치하는 인증게시물에서 첫대표 image와 user_id findAll
+        // user_id로 user_name , profile_img get
+
+
+        try {
+
+            const date = req.query.date;
+            let startDate = date + " 00:00:00";
+            startDate = Date.parse(startDate);
+            let endDate = date + " 23:59:59";
+            endDate = Date.parse(endDate);
+            
+            let certiList = await Certification.findAll({
+                where : {
+                    created_at : {
+                        [Op.between] : [startDate, endDate]
+                    }
+                },
+                attributes : ['id', 'user_id'],
+                raw : true,
+            });
+
+           certiList = await certiService.formatCertiList(certiList);
+           
+           res.status(code.OK).send(util.success(code.OK, message.GET_CERTILIST_SUCCESS, certiList));
+
+        } catch (err) {
+            console.error(err);
+            return res.status(code.INTERNAL_SERVER_ERROR).send(util.fail(code.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR));
+        }
     }
 }
