@@ -113,5 +113,35 @@ module.exports = {
             console.error(err);
             return res.status(code.INTERNAL_SERVER_ERROR).send(util.fail(code.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR));
         }
+    },
+
+    getCertiByCal : async (req, res) => {
+
+        try {
+
+            const date = req.query.date;
+            let startDate = date + " 00:00:00";
+            startDate = Date.parse(startDate);
+            let endDate = date + " 23:59:59";
+            endDate = Date.parse(endDate);
+            
+            let certiList = await Certification.findAll({
+                where : {
+                    created_at : {
+                        [Op.between] : [startDate, endDate]
+                    }
+                },
+                attributes : ['id', 'user_id'],
+                raw : true,
+            });
+
+           certiList = await certiService.formatCertiList(certiList);
+           
+           res.status(code.OK).send(util.success(code.OK, message.GET_CERTILIST_SUCCESS, certiList));
+
+        } catch (err) {
+            console.error(err);
+            return res.status(code.INTERNAL_SERVER_ERROR).send(util.fail(code.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR));
+        }
     }
 }
