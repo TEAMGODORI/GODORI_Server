@@ -284,4 +284,33 @@ module.exports = {
             return res.status(code.INTERNAL_SERVER_ERROR).send(util.fail(code.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR));
         }
     },
+
+    groupSearch : async (req, res) => {
+        
+        try {
+
+            const search = req.query.search;
+            console.log(search)
+            // null 값 처리
+            if (!search) {
+                res.status(code.OK).send(util.success(code.OK, message.NO_SEARCH_RESULT));
+            }
+
+            const searchResult = await Group.findAll({
+                where : {
+                    group_name : {
+                        [Op.like] : "%" + search + "%"
+                    }
+                },
+                attributes : ['id', 'group_name'],
+                raw : true
+            });
+
+            res.status(code.OK).send(util.success(code.OK, message.GROUP_SEARCH_SUCCESS, searchResult));
+
+        } catch (err) {
+            console.error(err);
+            return res.status(code.INTERNAL_SERVER_ERROR).send(util.fail(code.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR));
+        }
+    }
 }

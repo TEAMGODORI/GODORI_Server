@@ -15,5 +15,7 @@ router.post('/join/:userName', groupController.groupJoin);
 router.get('/left/:userName', groupController.getLeftExercise);
 // 모든 멤버 달성률 가져오기
 router.get('/member/:userName', groupController.getAllAchiveRate);
+// 그룹 검색하기
+router.get('/', groupController.groupSearch);
 
 module.exports = router;
