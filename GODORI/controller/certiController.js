@@ -119,14 +119,31 @@ module.exports = {
 
         try {
 
+            const user_name = req.params.userName;
+
             const date = req.query.date;
             let startDate = date + " 00:00:00";
             startDate = Date.parse(startDate);
             let endDate = date + " 23:59:59";
             endDate = Date.parse(endDate);
+
+            if (!user_name) {
+                return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.NULL_VALUE));
+            }
+            if (!date) {
+                return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.NULL_VALUE));
+            }
+
+            const user = await User.findOne({
+                where : {
+                    name : user_name
+                },
+                attributes : ['current_group_id']
+            });
             
             let certiList = await Certification.findAll({
                 where : {
+                    group_id : user.current_group_id,
                     created_at : {
                         [Op.between] : [startDate, endDate]
                     }
