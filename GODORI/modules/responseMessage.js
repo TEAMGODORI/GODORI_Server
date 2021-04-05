@@ -21,8 +21,7 @@ module.exports = {
     GET_GROUPLIST_SUCCESS : '그룹 목록 불러오기 성공',
     GET_GROUPDETAIL_SUCCESS : '그룹 상세내용 불러오기 성공',
     GROUP_JOIN_SUCCESS : '그룹 가입하기 성공',
-    GET_LEFT_COUNT_SUCCESS : '잔여 운동횟수 가져오기 성공',
-    GET_ALL_ACHIVERATE_SUCCESS : '모든 멤버의 달성률 가져오기 성공',
+    GET_AFTER_SIGNUP_INFO : '가입 후 그룹탭 필요 정보들 불러오기 성공',
     NO_SEARCH_RESULT : '그룹 검색 결과가 없습니다',
     GROUP_SEARCH_SUCCESS : '그룹 검색 성공',
 

@@ -11,10 +11,8 @@ router.get('/list/:userName', groupController.getGroupList);
 router.get('/detail/:groupId', groupController.getGroupDetail);
 // 그룹 가입하기
 router.post('/join/:userName', groupController.groupJoin);
-// 운동 잔여횟수 가져오기
-router.get('/left/:userName', groupController.getLeftExercise);
-// 모든 멤버 달성률 가져오기
-router.get('/member/:userName', groupController.getAllAchiveRate);
+// 그룹 이름, 이번주 남은 운동 횟수, 모든 멤버 달성률 가져오기
+router.get('/member/:userName', groupController.afterSignUpInfo);
 // 그룹 검색하기
 router.get('/', groupController.groupSearch);
 
