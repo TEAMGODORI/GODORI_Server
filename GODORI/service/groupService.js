@@ -172,5 +172,34 @@ module.exports = {
         }
     },
 
+    getWeekLeftCount : async (user) => {
+        
+        try {
+
+            let current = await Join.findOne({
+                where : {
+                    user_id : user.id,
+                    group_id : user.current_group_id
+                },
+                attributes : ['week_count']
+            })
+            current = current.week_count;
+
+            let all = await Group.findByPk(user.current_group_id, {
+                attributes : ['ex_cycle']
+            })
+            all = all.ex_cycle
+
+            let leftCount = 0
+            if (all > current) {
+                leftCount = all - current;
+            }
+
+            return leftCount
+        } catch (err) {
+            throw err;
+        }
+
+    },
 
 }

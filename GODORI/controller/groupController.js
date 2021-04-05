@@ -196,60 +196,11 @@ module.exports = {
         }
     },
 
-    getLeftExercise : async (req, res) => {
-
-        // userName param 으로 받아옴
+    afterSignUpInfo : async (req, res) => {
 
         try {
 
             const user_name = req.params.userName;
-
-            // null 값 처리
-            if (!user_name) {
-                return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.NULL_VALUE));
-            }
-
-            const user = await User.findOne({
-                where :{
-                    name : user_name
-                },
-                attributes : ['id', 'current_group_id']
-            });
-
-            let current = await Join.findOne({
-                where : {
-                    user_id : user.id,
-                    group_id : user.current_group_id
-                },
-                attributes : ['week_count']
-            })
-            current = current.week_count;
-
-            let all = await Group.findByPk(user.current_group_id, {
-                attributes : ['ex_cycle']
-            })
-            all = all.ex_cycle
-
-            let leftCount = 0
-            if (all > current) {
-                leftCount = all - current;
-            }
-            console.log(all, current);
-
-            res.status(code.OK).send(util.success(code.OK, message.GET_LEFT_COUNT_SUCCESS, leftCount));
-            
-        } catch (err) {
-            console.error(err);
-            return res.status(code.INTERNAL_SERVER_ERROR).send(util.fail(code.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR));
-        }
-    },
-
-    getAllAchiveRate : async (req, res) => {
-
-        try {
-
-            const user_name = req.params.userName;
-
             // null 값 처리
             if (!user_name) {
                 return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.NULL_VALUE));
@@ -260,9 +211,10 @@ module.exports = {
                 where : {
                     name : user_name
                 },
-                attributes : ['current_group_id']
+                attributes : ['id', 'current_group_id']
             });
             const group_id = user.current_group_id;
+            const left_count = await groupService.getWeekLeftCount(user);
 
             // group
             const group = await Group.findOne({
@@ -277,7 +229,8 @@ module.exports = {
             // member
             const member_list = await groupService.getMemberCount(group_id);
            
-           res.status(code.OK).send(util.success(code.OK, message.GET_ALL_ACHIVERATE_SUCCESS, {group_id, group_name, group_cycle, member_list}));
+           res.status(code.OK).send(util.success(code.OK, message.GET_AFTER_SIGNUP_INFO,
+            {group_id, group_name, left_count, group_cycle, member_list}));
 
         } catch (err) {
             console.error(err);
@@ -295,7 +248,7 @@ module.exports = {
             if (!search) {
                 res.status(code.OK).send(util.success(code.OK, message.NO_SEARCH_RESULT));
             }
-
+        
             const searchResult = await Group.findAll({
                 where : {
                     group_name : {
