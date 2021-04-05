@@ -2,7 +2,7 @@ const util = require('../modules/util');
 const code = require('../modules/statusCode');
 const message = require('../modules/responseMessage');
 
-const { User, Group, Join, UserSport, Sport } = require('../models');
+const { User, Group, Join, UserSport, Sport, Certification } = require('../models');
 const {Op} = require('sequelize');
 const dateService = require('../service/dateService');
 const groupService = require('../service/groupService');
@@ -242,5 +242,46 @@ module.exports = {
             console.error(err);
             return res.status(code.INTERNAL_SERVER_ERROR).send(util.fail(code.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR));
         }
-    }
+    },
+
+    getAllAchiveRate : async (req, res) => {
+
+        try {
+
+            const user_name = req.params.userName;
+
+            // null 값 처리
+            if (!user_name) {
+                return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.NULL_VALUE));
+            }
+
+            // user
+            const user = await User.findOne({
+                where : {
+                    name : user_name
+                },
+                attributes : ['current_group_id']
+            });
+            const group_id = user.current_group_id;
+
+            // group
+            const group = await Group.findOne({
+                where : {
+                    id : group_id
+                },
+                attributes : ['group_name', 'ex_cycle']
+            });
+            const group_name = group.group_name;
+            const group_cycle = group.ex_cycle;
+
+            // member
+            const member_list = await groupService.getMemberCount(group_id);
+           
+           res.status(code.OK).send(util.success(code.OK, message.GET_ALL_ACHIVERATE_SUCCESS, {group_id, group_name, group_cycle, member_list}));
+
+        } catch (err) {
+            console.error(err);
+            return res.status(code.INTERNAL_SERVER_ERROR).send(util.fail(code.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR));
+        }
+    },
 }

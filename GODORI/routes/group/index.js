@@ -13,5 +13,7 @@ router.get('/detail/:groupId', groupController.getGroupDetail);
 router.post('/join/:userName', groupController.groupJoin);
 // 운동 잔여횟수 가져오기
 router.get('/left/:userName', groupController.getLeftExercise);
+// 모든 멤버 달성률 가져오기
+router.get('/member/:userName', groupController.getAllAchiveRate);
 
 module.exports = router;
