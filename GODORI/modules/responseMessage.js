@@ -22,6 +22,7 @@ module.exports = {
     GET_GROUPDETAIL_SUCCESS : '그룹 상세내용 불러오기 성공',
     GROUP_JOIN_SUCCESS : '그룹 가입하기 성공',
     GET_LEFT_COUNT_SUCCESS : '잔여 운동횟수 가져오기 성공',
+    GET_ALL_ACHIVERATE_SUCCESS : '모든 멤버의 달성률 가져오기 성공',
 
     /*Certi */
     NEW_CERTI_SUCCESS : '인증 게시물 올리기 성공',

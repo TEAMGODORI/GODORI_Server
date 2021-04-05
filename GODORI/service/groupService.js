@@ -1,4 +1,4 @@
-const { Group, Join, User  }  = require('../models/');
+const { Group, Join, User, Certification}  = require('../models/');
 const dateService = require('./dateService');
 const {Op} = require('sequelize');
 
@@ -105,7 +105,72 @@ module.exports = {
         } catch (err) {
             throw err;
         }
-    }
+    },
+
+    getMemberCount : async (group_id) => {
+
+        try {
+
+            // members
+            const members = await User.findAll({
+                where : {
+                    current_group_id : group_id
+                },
+                attributes : ['id', 'name', 'profile_img']
+            });
+
+            let joiners = [];
+            const today = new Date().setHours(0,0,0,0);
+            const now = new Date();
+            for (member of members) {
+                
+                // members & week count
+                let joiner = await Join.findOne({
+                    where : {
+                        user_id : member.id,
+                        group_id
+                    },
+                    attributes : ['week_count'],
+                    raw : true
+                });
+
+                joiner.user_id = member.id;
+                joiner.user_name = member.name;
+                if (member.profile_img) {
+                    joiner.user_img = member.profile_img;
+                } else {
+                    joiner.user_img = "";
+                }
+
+                // 오늘 인증했는지 안했는지
+                let certi = await Certification.findAll({
+                    where : {
+                        user_id : member.id,
+                        group_id,
+                        created_at : {
+                            [Op.gte] : today,
+                            [Op.lte] : now
+                        }
+                    },
+                    raw : true
+                });
+
+                if (certi[0]) {
+                    joiner.today_done = true;
+                } else {
+                    joiner.today_done = false;
+                }
+                
+                joiners.push(joiner);
+
+            }
+
+            return joiners;
+
+        } catch (err) {
+            throw err;
+        }
+    },
 
 
 }
