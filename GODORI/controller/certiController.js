@@ -2,7 +2,7 @@ const util = require('../modules/util');
 const code = require('../modules/statusCode');
 const message = require('../modules/responseMessage');
 
-const { User, Group, Join, UserSport, Sport, Certification, CertiImage, CertiSport } = require('../models');
+const { User, Like, Sport, Certification, CertiImage, CertiSport } = require('../models');
 const {Op} = require('sequelize');
 const dateService = require('../service/dateService');
 const certiService = require('../service/certiService');
@@ -161,4 +161,51 @@ module.exports = {
             return res.status(code.INTERNAL_SERVER_ERROR).send(util.fail(code.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR));
         }
     },
+
+    likeOrCancel : async (req, res) => {
+
+        try {
+
+            const user_name = req.params.userName;
+            const certi_id = req.query.certiId;
+
+            if (!certi_id || !user_name) {
+                return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.NULL_VALUE));
+            }
+
+            const user = await User.findOne({
+                where : {
+                    name : user_name
+                },
+                attributes : ['id'] 
+            });
+
+            const isLiked = await Like.findAll({
+                where : {
+                    user_id : user.id,
+                    certi_id
+                }
+            });
+
+            if (isLiked.length > 0) {
+                const like = await Like.destroy({
+                    where : {
+                        user_id : user.id,
+                        certi_id
+                    }
+                });
+                return res.status(code.OK).send(util.success(code.OK, message.LIKE_CANCEL_SUCCESS));
+            }
+
+            const like = await Like.create({
+                user_id : user.id,
+                certi_id
+            });
+            return res.status(code.OK).send(util.success(code.OK, message.LIKE_SUCCESS));
+
+        } catch (err) {
+            console.error(err);
+            return res.status(code.INTERNAL_SERVER_ERROR).send(util.fail(code.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR));
+        }
+    }
 }

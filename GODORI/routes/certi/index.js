@@ -9,5 +9,7 @@ router.post('/:userName', upload.array('images'), certiController.postNewCerti);
 router.get('/detail/:certiId', certiController.getCertiDetail);
 // 해당 날짜의 인증 게시물 가져오기
 router.get('/:userName', certiController.getCertiByCal);
+// 좋아요, 좋아요 취소
+router.put('/like/:userName', certiController.likeOrCancel);
 
 module.exports = router;
