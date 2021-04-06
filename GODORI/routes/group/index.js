@@ -15,5 +15,7 @@ router.post('/join/:userName', groupController.groupJoin);
 router.get('/member/:userName', groupController.afterSignUpInfo);
 // 그룹 검색하기
 router.get('/', groupController.groupSearch);
+// 그룹 탈퇴하기
+router.put('/:userName', groupController.leaveGroup);
 
 module.exports = router;

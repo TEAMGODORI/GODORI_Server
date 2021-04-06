@@ -24,6 +24,7 @@ module.exports = {
     GET_AFTER_SIGNUP_INFO : '가입 후 그룹탭 필요 정보들 불러오기 성공',
     NO_SEARCH_RESULT : '그룹 검색 결과가 없습니다',
     GROUP_SEARCH_SUCCESS : '그룹 검색 성공',
+    LEAVE_GROUP_SUCCESS : '그룹 탈퇴 성공',
 
     /*Certi */
     NEW_CERTI_SUCCESS : '인증 게시물 올리기 성공',

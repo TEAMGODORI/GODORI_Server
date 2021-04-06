@@ -265,5 +265,30 @@ module.exports = {
             console.error(err);
             return res.status(code.INTERNAL_SERVER_ERROR).send(util.fail(code.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR));
         }
+    },
+
+    leaveGroup : async (req, res) => {
+
+        try {
+
+            const user_name = req.params.userName;
+            // null 값 처리
+            if (!user_name) {
+                return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.NULL_VALUE));
+            }
+
+            // 현 그룹 0으로 초기화
+            const updateCurrentGroup = await User.update({current_group_id : 0}, {
+                where : {
+                    name : user_name
+                },
+            });
+
+            res.status(code.OK).send(util.success(code.OK, message.LEAVE_GROUP_SUCCESS));
+
+        } catch (err) {
+            console.error(err);
+            return res.status(code.INTERNAL_SERVER_ERROR).send(util.fail(code.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR));
+        }
     }
 }
