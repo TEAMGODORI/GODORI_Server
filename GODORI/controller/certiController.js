@@ -65,7 +65,7 @@ module.exports = {
                     attributes : ['id']
                 })
 
-                // 그룹 운동종목 취향 저장
+                //  인증 운동종목 저장
                 let newCertiSports = await CertiSport.create({
                     certi_id: newCerti.id,
                     sport_id: sportName.id
