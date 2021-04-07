@@ -216,7 +216,7 @@ module.exports = {
             const group_id = user.current_group_id;
 
             if (group_id == 0) {
-                return res.status(code.OK).send(util.success(code.OK, message.NO_SIGNEDUP_GROUP));
+                return res.status(code.OK).send(util.success(code.OK, message.NO_SIGNEDUP_GROUP, {group_id}));
             }
             const left_count = await groupService.getWeekLeftCount(user);
 
