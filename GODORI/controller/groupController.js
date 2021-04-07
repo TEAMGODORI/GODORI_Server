@@ -58,7 +58,7 @@ module.exports = {
                 group_id : findNewGroup.id,
             });
 
-            res.status(code.OK).send(util.success(code.OK, message.CREATE_GROUP_SUCCESS));
+            return res.status(code.OK).send(util.success(code.OK, message.CREATE_GROUP_SUCCESS));
 
         } catch (err) {
             console.error(err);
@@ -123,7 +123,7 @@ module.exports = {
             const userSportString = userSport.join()
             user.sports = userSportString
 
-            res.status(code.OK).send(util.success(code.OK, message.GET_GROUPLIST_SUCCESS, {user, group_list: groupList}));
+            return res.status(code.OK).send(util.success(code.OK, message.GET_GROUPLIST_SUCCESS, {user, group_list: groupList}));
 
         } catch (err) {
             console.error(err);
@@ -150,7 +150,7 @@ module.exports = {
 
             const groupDetail = await groupService.formatGroupDetail(group_id);
 
-            res.status(code.OK).send(util.success(code.OK, message.GET_GROUPDETAIL_SUCCESS, groupDetail));
+            return res.status(code.OK).send(util.success(code.OK, message.GET_GROUPDETAIL_SUCCESS, groupDetail));
 
         } catch (err) {
             console.error(err);
@@ -188,7 +188,7 @@ module.exports = {
                 week_count : 0
             })
 
-            res.status(code.OK).send(util.success(code.OK, message.GROUP_JOIN_SUCCESS));
+            return res.status(code.OK).send(util.success(code.OK, message.GROUP_JOIN_SUCCESS));
             
         } catch (err) {
             console.error(err);
@@ -214,6 +214,10 @@ module.exports = {
                 attributes : ['id', 'current_group_id']
             });
             const group_id = user.current_group_id;
+
+            if (group_id == 0) {
+                return res.status(code.OK).send(util.success(code.OK, message.NO_SIGNEDUP_GROUP));
+            }
             const left_count = await groupService.getWeekLeftCount(user);
 
             // group
@@ -229,7 +233,7 @@ module.exports = {
             // member
             const member_list = await groupService.getMemberCount(group_id);
            
-           res.status(code.OK).send(util.success(code.OK, message.GET_AFTER_SIGNUP_INFO,
+           return res.status(code.OK).send(util.success(code.OK, message.GET_AFTER_SIGNUP_INFO,
             {group_id, group_name, left_count, group_cycle, member_list}));
 
         } catch (err) {
@@ -246,7 +250,7 @@ module.exports = {
             console.log(search)
             // null 값 처리
             if (!search) {
-                res.status(code.OK).send(util.success(code.OK, message.NO_SEARCH_RESULT));
+                return res.status(code.OK).send(util.success(code.OK, message.NO_SEARCH_RESULT));
             }
         
             const searchResult = await Group.findAll({
@@ -259,7 +263,7 @@ module.exports = {
                 raw : true
             });
 
-            res.status(code.OK).send(util.success(code.OK, message.GROUP_SEARCH_SUCCESS, searchResult));
+            return res.status(code.OK).send(util.success(code.OK, message.GROUP_SEARCH_SUCCESS, searchResult));
 
         } catch (err) {
             console.error(err);
@@ -284,7 +288,7 @@ module.exports = {
                 },
             });
 
-            res.status(code.OK).send(util.success(code.OK, message.LEAVE_GROUP_SUCCESS));
+            return res.status(code.OK).send(util.success(code.OK, message.LEAVE_GROUP_SUCCESS));
 
         } catch (err) {
             console.error(err);

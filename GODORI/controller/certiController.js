@@ -75,7 +75,7 @@ module.exports = {
             const addImages = await certiService.addImages(newCerti.id, imageArray);
             const addCountRate = await certiService.countAndRate(user.id, user.current_group_id);
 
-            res.status(code.OK).send(util.success(code.OK, message.NEW_CERTI_SUCCESS));
+            return res.status(code.OK).send(util.success(code.OK, message.NEW_CERTI_SUCCESS));
 
         } catch (err) {
             console.error(err);
@@ -107,7 +107,7 @@ module.exports = {
 
             const formatCerti = await certiService.formatCerti(certi_id, certi);
 
-            res.status(code.OK).send(util.success(code.OK, message.GET_CERTIDETAIL_SUCCESS, formatCerti));
+            return res.status(code.OK).send(util.success(code.OK, message.GET_CERTIDETAIL_SUCCESS, formatCerti));
 
         } catch (err) {
             console.error(err);
@@ -154,7 +154,7 @@ module.exports = {
 
            certiList = await certiService.formatCertiList(certiList);
            
-           res.status(code.OK).send(util.success(code.OK, message.GET_CERTILIST_SUCCESS, certiList));
+           return res.status(code.OK).send(util.success(code.OK, message.GET_CERTILIST_SUCCESS, certiList));
 
         } catch (err) {
             console.error(err);
