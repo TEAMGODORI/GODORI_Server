@@ -24,6 +24,9 @@ module.exports = {
                 },
                 attributes : ['id', 'current_group_id']
             });
+            if (user.current_group_id == 0) {
+                return res.status(code.OK).send(util.success(code.OK, message.NO_SIGNEDUP_GROUP));
+            }
 
             const join = await Join.findOne({
                 where : {
@@ -35,6 +38,10 @@ module.exports = {
             });
 
             const certi_list = await myPageService.formatCertiImage(user.id);
+
+            if (certi_list == 0) {
+                return res.status(code.OK).send(util.success(code.OK, message.NO_CERTI_YET));
+            }
 
             return res.status(code.OK).send(util.success(code.OK, message.GET_MYPAGE_INFO_SUCCESS, {join, certi_list}));
 

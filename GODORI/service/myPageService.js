@@ -16,6 +16,10 @@ module.exports = {
                 raw : true,
             });
 
+            if (!certi_list) {
+                return 0;
+            }
+
             for (certi of certi_list) {
    
                 let certiImage = await CertiImage.findOne({
