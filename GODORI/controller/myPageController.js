@@ -8,12 +8,11 @@ const dateService = require('../service/dateService');
 const myPageService = require('../service/myPageService');
 
 module.exports = {
-    updateExPrefer : async (req, res) => {
+    getMyPageInfo : async (req, res) => {
 
         try {
 
             const user_name = req.params.userName;
-            const {ex_cycle, ex_intensity, sports} = req.body;
             // null 값 처리
             if (!user_name) {
                 return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.NULL_VALUE));
@@ -23,25 +22,21 @@ module.exports = {
                 where : {
                     name : user_name
                 },
-                attributes : ['id']
+                attributes : ['id', 'current_group_id']
             });
 
-            const changeExPrefer = await User.update({ex_cycle, ex_intensity}, {
+            const join = await Join.findOne({
                 where : {
-                    name : user_name
+                    user_id : user.id,
+                    group_id : user.current_group_id
                 },
+                attributes : ['achive_rate', 'week_count'],
+                raw : true
             });
 
-            const destroyUserSports = await UserSport.destroy({
-                where : {
-                    user_id : user.id
-                }
-            });
+            const certi_list = await myPageService.formatCertiImage(user.id);
 
-            console.log(ex_intensity);
-            const userSport = await myPageService.setUserSports(user.id, sports);
-
-            return res.status(code.OK).send(util.success(code.OK, message.CHANGE_EXPREFER_SUCCESS));
+            return res.status(code.OK).send(util.success(code.OK, message.GET_MYPAGE_INFO_SUCCESS, {join, certi_list}));
 
         } catch (err) {
             console.error(err);

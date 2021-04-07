@@ -164,9 +164,6 @@ module.exports = {
                 });
 
                 if (certiImage) {
-                    certiImage = certiImage.image;
-                    certiImage = certiImage.split(",");
-                    certiImage = certiImage[0];
                     certi.image = certiImage;
                 } else {
                     certi.image = "";

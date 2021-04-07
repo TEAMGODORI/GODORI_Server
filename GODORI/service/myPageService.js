@@ -1,33 +1,39 @@
-const { UserSport, Sport }  = require('../models/');
+const { UserSport, Sport, Certification, CertiImage}  = require('../models/');
 const dateService = require('./dateService');
 const {Op} = require('sequelize');
 
 module.exports = {
 
-    setUserSports : async (user_id, sports) => {
+    formatCertiImage : async (user_id) => {
 
         try {
 
-            console.log(sports);
-            const userSports = sports.split(",");
-            for (sport of userSports) {
+            let certi_list = await Certification.findAll({
+                where : {
+                    user_id
+                },
+                attributes : ['id'],
+                raw : true,
+            });
 
-                // 스포츠 아이디 find
-                let sportName = await Sport.findOne({
+            for (certi of certi_list) {
+   
+                let certiImage = await CertiImage.findOne({
                     where : {
-                        name: sport
-                    },
-                    attributes : ['id']
-                })
-
-                // 유저 취향 저장
-                let newCertiSports = await UserSport.create({
-                    user_id, 
-                    sport_id : sportName.id
+                        certi_id : certi.id
+                    }, 
+                    attributes : ['image']
                 });
+
+                if (certiImage) {
+                    certi.image = certiImage;
+                } else {
+                    certi.image = "";
+                }
+
             }
 
-            return 1;
+            return certi_list;
 
         } catch (err) {
             throw err;
