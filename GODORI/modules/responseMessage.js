@@ -34,6 +34,9 @@ module.exports = {
     LIKE_SUCCESS : '좋아요 성공',
     LIKE_CANCEL_SUCCESS : '좋아요 취소 성공',
 
+    /*MyPage*/
+    CHANGE_EXPREFER_SUCCESS : '운동 취향 수정 성공',
+
     /* 서버에러 */
     INTERNAL_SERVER_ERROR: "서버 내부 오류", 
   }
