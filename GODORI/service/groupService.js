@@ -33,7 +33,7 @@ module.exports = {
                         [Op.or] : [userSport]
                     }
                 },
-                attributes : ['id', 'group_sport', 'group_name',
+                attributes : ['id', 'group_sport', 'group_name', 'intro_comment',
                 'ex_cycle', 'ex_intensity', 'created_at', 'recruit_num'],
                 raw : true,
             });
