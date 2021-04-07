@@ -22,6 +22,7 @@ module.exports = {
     GET_GROUPDETAIL_SUCCESS : '그룹 상세내용 불러오기 성공',
     GROUP_JOIN_SUCCESS : '그룹 가입하기 성공',
     GET_AFTER_SIGNUP_INFO : '가입 후 그룹탭 필요 정보들 불러오기 성공',
+    NO_SIGNEDUP_GROUP : '가입된 그룹이 없습니다',
     NO_SEARCH_RESULT : '그룹 검색 결과가 없습니다',
     GROUP_SEARCH_SUCCESS : '그룹 검색 성공',
     LEAVE_GROUP_SUCCESS : '그룹 탈퇴 성공',
