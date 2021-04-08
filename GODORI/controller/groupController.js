@@ -58,6 +58,12 @@ module.exports = {
                 group_id : findNewGroup.id,
             });
 
+            const updateCurrentGroup = await User.update({current_group_id: findNewGroup.id}, {
+                where : {
+                    id : findGroupMaker.id
+                }
+            });
+
             return res.status(code.OK).send(util.success(code.OK, message.CREATE_GROUP_SUCCESS));
 
         } catch (err) {
@@ -186,7 +192,13 @@ module.exports = {
                 group_id,
                 achive_rate : 0,
                 week_count : 0
-            })
+            });
+
+            const updateCurrentGroup = await User.update({current_group_id: group_id}, {
+                where : {
+                    id : user_id
+                }
+            });
 
             return res.status(code.OK).send(util.success(code.OK, message.GROUP_JOIN_SUCCESS));
             
