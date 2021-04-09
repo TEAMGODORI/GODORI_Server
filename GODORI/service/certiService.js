@@ -1,4 +1,4 @@
-const { Group, Certification, CertiImage, Join, User, CertiSport, Sport  }  = require('../models/');
+const { Group, Certification, CertiImage, Join, User, CertiSport, Sport, Like  }  = require('../models/');
 const dateService = require('./dateService');
 const {Op} = require('sequelize');
 
@@ -74,11 +74,16 @@ module.exports = {
 
     },
 
-    formatCerti : async (certi_id, certi) => {
+    formatCerti : async (user_id, certi_id) => {
         try {
 
-            // certiSport 운동종목 
-            // user 프로필 이미지, 이름
+            const certi = await Certification.findOne({
+                where : {
+                    id : certi_id
+                },
+                attributes : ['ex_time', 'ex_intensity', 'ex_evalu', 'ex_comment', 'user_id'],
+                raw : true,
+            });
 
             console.log(certi.user_id)
             // 인증 게시물 올린 유저의 이름, 프로필 이미지
@@ -121,6 +126,26 @@ module.exports = {
             });
             sportsName = sportsName.map(s => s.name)
             const certiSport = sportsName.join()
+
+            // 좋아요 포함 (내가 좋아요 눌렀는지 안눌렀는지 & 해당 게시물의 총 좋아요 개수)
+            const isLiked = await Like.findOne({
+                where : {
+                    user_id,
+                    certi_id,
+                }
+            });
+            if (! isLiked) {
+                certi.is_liked = false;
+            } else {
+                certi.is_liked = true;
+            }
+
+            const likeCount = await Like.findAndCountAll ({
+                where : {
+                    certi_id,
+                }
+            });
+            certi.like_count = likeCount
 
             certi.user_name = certiUser.name;
             certi.user_image = certiUser.profile_img;

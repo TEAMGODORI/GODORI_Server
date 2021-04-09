@@ -90,22 +90,22 @@ module.exports = {
         
 
         try {
-            const certi_id = req.params.certiId;
+            const user_name = req.params.userName;
+            const certi_id = req.query.certiId;
+
+            const user = await User.findOne({
+                where : {
+                    name : user_name
+                },
+                attributes : ['id']
+            });
 
             // null 값 처리
-            if (!certi_id) {
+            if (!certi_id || !user) {
                 return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.NULL_VALUE));
             }
 
-            const certi = await Certification.findOne({
-                where : {
-                    id : certi_id
-                },
-                attributes : ['ex_time', 'ex_intensity', 'ex_evalu', 'ex_comment', 'user_id'],
-                raw : true,
-            })
-
-            const formatCerti = await certiService.formatCerti(certi_id, certi);
+            const formatCerti = await certiService.formatCerti(user.id, certi_id);
 
             return res.status(code.OK).send(util.success(code.OK, message.GET_CERTIDETAIL_SUCCESS, formatCerti));
 
