@@ -13,7 +13,7 @@ module.exports = {
         try {
             // sport_id와 group_maker 는 다른 테이블에 저장
             const { group_name, recruit_num, is_public, intro_comment,
-            ex_cycle, ex_intensity, group_sport, group_maker } = req.body;
+            ex_cycle, ex_intensity, group_sport, group_maker } = req.body; 
 
             // null 값 처리
             if (!group_name || !recruit_num || !group_maker) {
