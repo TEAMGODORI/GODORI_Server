@@ -8,7 +8,7 @@ const dateService = require('../service/dateService');
 const groupService = require('../service/groupService');
 
 module.exports = {
-    postNewGroup : async (req, res) => {
+    postNewGroup : async (req, res) => { 
 
         try {
             // sport_id와 group_maker 는 다른 테이블에 저장
