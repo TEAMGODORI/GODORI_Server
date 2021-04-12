@@ -145,12 +145,18 @@ module.exports = {
                     certi_id,
                 }
             });
-            certi.like_count = likeCount
+            certi.like_count = likeCount.count;
 
             certi.user_name = certiUser.name;
             certi.user_image = certiUser.profile_img;
+            if (!certiUser.profile_img) {
+                certi.user_image = ""
+            }
             certi.sports = certiSport;
             certi.certi_images = certiImages;
+            if (!certiImages) {
+                certi.certi_images = ""
+            }
 
             return certi
 
