@@ -92,7 +92,7 @@ module.exports = {
         try {
             const user_name = req.params.userName;
             const certi_id = req.query.certiId;
-            console.log(user_name)
+            console.log(user_name) 
             const user = await User.findOne({
                 where : {
                     name : user_name
