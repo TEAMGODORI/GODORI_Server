@@ -107,6 +107,32 @@ module.exports = {
         }
     },
 
+    getGroupMember : async (group_id) => {
+
+        try {
+
+            // members
+            const members = await User.findAll({
+                where : {
+                    current_group_id : group_id
+                },
+                attributes : ['id', 'name', 'profile_img'],
+                raw : true,
+            }); 
+
+            for (member of members) {
+                if (!member.profile_img) {
+                    member.profile_img = "";
+                }
+            }
+
+            return members;
+
+        } catch (err) {
+            throw err;
+        }
+    },
+
     getMemberCount : async (group_id) => {
 
         try {
