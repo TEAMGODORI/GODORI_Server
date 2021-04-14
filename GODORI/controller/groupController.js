@@ -164,6 +164,28 @@ module.exports = {
         }
     },
 
+    getGroupDetailAfterSignUp : async (req, res) => {
+
+        try {
+
+            const group_id = req.params.groupId;
+
+            // null 값 처리
+            if (!group_id) {
+                return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.NULL_VALUE));
+            }
+
+            const groupDetail = await groupService.formatGroupDetail(group_id);
+            const groupMember = await groupService.getGroupMember(group_id);
+
+            return res.status(code.OK).send(util.success(code.OK, message.GET_GROUPDETAIL_SUCCESS, {groupDetail, groupMember}));
+
+        } catch (err) {
+            console.error(err);
+            return res.status(code.INTERNAL_SERVER_ERROR).send(util.fail(code.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR));
+        }
+    },
+
     groupJoin : async (req, res) => {
 
         // userName param 으로 받아옴
