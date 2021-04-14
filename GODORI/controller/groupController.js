@@ -175,10 +175,10 @@ module.exports = {
                 return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.NULL_VALUE));
             }
 
-            const groupDetail = await groupService.formatGroupDetail(group_id);
-            const groupMember = await groupService.getGroupMember(group_id);
+            const group_detail = await groupService.formatGroupDetail(group_id);
+            const group_member = await groupService.getGroupMember(group_id);
 
-            return res.status(code.OK).send(util.success(code.OK, message.GET_GROUPDETAIL_SUCCESS, {groupDetail, groupMember}));
+            return res.status(code.OK).send(util.success(code.OK, message.GET_GROUPDETAIL_SUCCESS, {group_detail, group_member}));
 
         } catch (err) {
             console.error(err);
