@@ -14,6 +14,7 @@ module.exports = {
                     image = file.location
                     imageArray.push(image);
                 }
+                console.log(imageArray);
                 return imageArray;
             }
             return null;
