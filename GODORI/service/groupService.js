@@ -117,9 +117,10 @@ module.exports = {
                     current_group_id : group_id
                 },
                 attributes : ['id', 'name', 'profile_img']
-            });
+            }); 
 
-            let joiners = [];
+            let todayJoiners = [];
+            let notTodayJoiners = [];
             const today = new Date().setHours(0,0,0,0);
             const now = new Date();
             for (member of members) {
@@ -156,16 +157,13 @@ module.exports = {
                 });
 
                 if (certi[0]) {
-                    joiner.today_done = true;
+                    todayJoiners.push(joiner);
                 } else {
-                    joiner.today_done = false;
+                    notTodayJoiners.push(joiner);
                 }
-                
-                joiners.push(joiner);
-
             }
 
-            return joiners;
+            return [todayJoiners, notTodayJoiners];
 
         } catch (err) {
             throw err;

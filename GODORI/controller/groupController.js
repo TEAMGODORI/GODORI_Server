@@ -244,9 +244,11 @@ module.exports = {
 
             // member
             const member_list = await groupService.getMemberCount(group_id);
+            const today_member = member_list[0];
+            const not_today_member = member_list[1];
            
            return res.status(code.OK).send(util.success(code.OK, message.GET_AFTER_SIGNUP_INFO,
-            {group_id, group_name, left_count, group_cycle, member_list}));
+            {group_id, group_name, left_count, group_cycle, today_member, not_today_member}));
 
         } catch (err) {
             console.error(err);
