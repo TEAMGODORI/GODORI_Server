@@ -60,7 +60,7 @@ module.exports = {
                     id : group_id,
                     is_public : true,
                 },
-                attributes : ['id', 'group_sport', 'group_name',
+                attributes : ['id', 'group_sport', 'group_name', 'intro_comment',
                 'ex_cycle', 'ex_intensity', 'created_at', 'recruit_num'],
                 raw : true,
             });
