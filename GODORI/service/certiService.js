@@ -14,7 +14,6 @@ module.exports = {
                     image = file.location
                     imageArray.push(image);
                 }
-                console.log(imageArray);
                 return imageArray;
             }
             return null;
@@ -26,6 +25,7 @@ module.exports = {
     addImages: async (certi_id, imageArray) => {
 
         let file = ""
+        console.log(imageArray);
         for (image of imageArray) {
             file = await CertiImage.create({
                 certi_id,
