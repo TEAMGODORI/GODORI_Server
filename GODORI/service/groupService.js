@@ -66,7 +66,7 @@ module.exports = {
             });
 
             let parsedDate = group.created_at.toISOString()
-            parsedDate = parsedDate.substr(0,10).split('-').join('.') + "~";
+            parsedDate = parsedDate.substr(0,10).split('-').join('.') + " ~";
             group.created_at = parsedDate;
 
             // 모집된 인원
