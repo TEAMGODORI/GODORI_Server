@@ -78,7 +78,7 @@ module.exports = {
             const userSport = await groupService.findUserSport(user.id);
             if (userSport == message.CANNOT_FIND_SPORT) {
                 return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.CANNOT_FIND_SPORT));
-            } else if (userSport = message.CANNOT_FIND_USERSPORT) {
+            } else if (userSport == message.CANNOT_FIND_USERSPORT) {
                 return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.CANNOT_FIND_USERSPORT));
             }
 
