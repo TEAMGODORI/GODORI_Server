@@ -1,4 +1,4 @@
-const { Group, Join, User, Certification}  = require('../models/');
+const { Group, Join, User, Certification, UserSport}  = require('../models/');
 const dateService = require('./dateService');
 const {Op} = require('sequelize');
 const message = require('../modules/responseMessage');
