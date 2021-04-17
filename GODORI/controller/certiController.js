@@ -10,25 +10,11 @@ const certiService = require('../service/certiService');
 module.exports = {
     postNewCerti : async (req, res) => {
 
-        // req.params 가져올 것 : userName
-
-        // req.body 가져와야 하는 것들 : 
-        // ex_time, ex_intensity, ex_evalu, ex_comment
-
-        // req.files 가져와야 하는 것 : image
-
-        // userName 통해서 id, current_group_id를 user_id,group_id에 넣기
-        // parse_date는 다음에 불러올 때 ?
-
-        // 인증횟수 +1 (나중에)
-
         try {
-            // sport_id와 group_maker 는 다른 테이블에 저장
             const user_name = req.params.userName;
             let { ex_time, ex_intensity, ex_evalu, ex_comment, certi_sport } = req.body;
             const imageArray = await certiService.getImageUrl(req.files);
 
-            // null 값 처리
             if (!user_name) {
                 return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.NULL_VALUE));
             }
@@ -44,6 +30,9 @@ module.exports = {
                 },
                 attributes : ['id', 'current_group_id'],
             });
+            if (!user) {
+                return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.NO_USER));
+            }
 
             const newCerti = await Certification.create({
                 ex_time,
@@ -85,10 +74,6 @@ module.exports = {
 
     getCertiDetail : async (req, res) => {
 
-        // certi ID 를 받아옴
-        // ex_time, ex_intensity, ex_evalu, ex_comment
-        
-
         try {
             const user_name = req.params.userName;
             const certi_id = req.query.certiId;
@@ -100,7 +85,6 @@ module.exports = {
                 attributes : ['id']
             });
 
-            // null 값 처리
             if (!certi_id || !user) {
                 return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.NULL_VALUE));
             }
@@ -140,6 +124,9 @@ module.exports = {
                 },
                 attributes : ['current_group_id']
             });
+            if (!user) {
+                return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.NO_USER));
+            }
             
             let certiList = await Certification.findAll({
                 where : {
