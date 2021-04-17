@@ -232,6 +232,28 @@ module.exports = {
         }
     },
 
+    joinGroup : async (user_id, group_id) => {
+        try {
+            const join = await Join.create({
+                user_id,
+                group_id,
+                achive_rate : 0,
+                week_count : 0
+            });
+
+            const updateCurrentGroup = await User.update({current_group_id: group_id}, {
+                where : {
+                    id : user_id
+                }
+            });
+
+            return 1;
+
+        } catch (err) {
+            throw err;
+        }
+    },
+
     getMemberCount : async (group_id) => {
 
         try {
@@ -305,7 +327,7 @@ module.exports = {
                     group_id : user.current_group_id
                 },
                 attributes : ['week_count']
-            })
+            });
             current = current.week_count;
 
             let all = await Group.findByPk(user.current_group_id, {

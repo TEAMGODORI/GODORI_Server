@@ -173,18 +173,7 @@ module.exports = {
             }
             user_id = user_id.id;
 
-            const join = await Join.create({
-                user_id,
-                group_id,
-                achive_rate : 0,
-                week_count : 0
-            });
-
-            const updateCurrentGroup = await User.update({current_group_id: group_id}, {
-                where : {
-                    id : user_id
-                }
-            });
+            const join = await groupService.joinGroup(user_id, group_id);
 
             return res.status(code.OK).send(util.success(code.OK, message.GROUP_JOIN_SUCCESS));
             
@@ -194,25 +183,26 @@ module.exports = {
         }
     },
 
+    // 그룹 가입 후 그룹 메인탭
     afterSignUpInfo : async (req, res) => {
 
         try {
 
             const user_name = req.params.userName;
-            // null 값 처리
             if (!user_name) {
                 return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.NULL_VALUE));
             }
 
-            // user
             const user = await User.findOne({
                 where : {
                     name : user_name
                 },
                 attributes : ['id', 'current_group_id']
             });
+            if (!user) {
+                return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.NO_USER));
+            }
             const group_id = user.current_group_id;
-
             if (group_id == 0) {
                 return res.status(code.OK).send(util.success(code.OK, message.NO_SIGNEDUP_GROUP, {group_id}));
             }
@@ -247,8 +237,6 @@ module.exports = {
         try {
 
             const search = req.query.search;
-            console.log(search)
-            // null 값 처리
             if (!search) {
                 return res.status(code.OK).send(util.success(code.OK, message.NO_SEARCH_RESULT));
             }
@@ -276,16 +264,32 @@ module.exports = {
         try {
 
             const user_name = req.params.userName;
-            // null 값 처리
             if (!user_name) {
                 return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.NULL_VALUE));
             }
 
+            const user = await User.findOne({
+                where : {
+                    name : user_name
+                },
+                attributes : ['id', 'current_group_id']
+            });
+            if (!user) {
+                return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.NO_USER));
+            }
+            
             // 현 그룹 0으로 초기화
             const updateCurrentGroup = await User.update({current_group_id : 0}, {
                 where : {
                     name : user_name
                 },
+            });
+
+            const deleteJoin = await Join.destroy({
+                where : {
+                    user_id : user.id,
+                    group_id : user.current_group_id
+                }
             });
 
             return res.status(code.OK).send(util.success(code.OK, message.LEAVE_GROUP_SUCCESS));
