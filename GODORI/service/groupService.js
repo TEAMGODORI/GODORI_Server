@@ -1,6 +1,7 @@
 const { Group, Join, User, Certification}  = require('../models/');
 const dateService = require('./dateService');
 const {Op} = require('sequelize');
+const message = require('../modules/responseMessage');
 
 const formatGroup = async (group) => {
 
@@ -21,9 +22,94 @@ const formatGroup = async (group) => {
 
 module.exports = {
 
+    signUpFirstMember : async (group_name, group_maker) => {
+
+        try {
+
+            const findNewGroup = await Group.findOne({
+                where : {
+                    group_name: group_name,
+                },
+                attributes : ['id']
+            });
+
+            if (!findNewGroup) {
+                return message.CANNOT_FIND_GROUP;
+            }
+
+            const findGroupMaker = await User.findOne({
+                where : {
+                    name : group_maker,
+                },
+                attributes : ['id']
+            });
+
+            if (!findGroupMaker) {
+                return message.CANNOT_FIND_USER;
+            }
+
+            const groupMakerJoin = await Join.create({
+                user_id : findGroupMaker.id,
+                group_id : findNewGroup.id,
+            });
+
+            const updateCurrentGroup = await User.update({current_group_id: findNewGroup.id}, {
+                where : {
+                    id : findGroupMaker.id
+                }
+            });
+            
+            return 1;
+
+        } catch (err) {
+            throw err;
+        }
+
+    },
+
+    findUserSport : async (user_id) => {
+
+        try {
+
+            // find user sports
+            let sports = await UserSport.findAll({
+                where : {
+                    user_id : user.id,
+                },
+                attributes : ['sport_id'],
+                raw : true
+            });
+            if (!sports) {
+                return message.CANNOT_FIND_SPORT;
+            }
+            sports = sports.map(s => s.sport_id)
+
+            // find sports name
+            let userSport = await Sport.findAll({
+                where : {
+                    id : {
+                        [Op.or] : [sports],
+                    }
+                },
+                attributes : ['name'],
+                raw : true
+            });
+            if (!userSport) {
+                return message.CANNOT_FIND_USERSPORT;
+            }
+            userSport = userSport.map(u => u.name)
+
+            return userSport;
+
+        } catch (err) {
+            throw err;
+        }
+    },
+
     formatGroupList : async (user, userSport) => {
 
         try {
+
             let groupList = await Group.findAll({
                 where : {
                     is_public : true,
@@ -37,12 +123,16 @@ module.exports = {
                 'ex_cycle', 'ex_intensity', 'created_at', 'recruit_num'],
                 raw : true,
             });
+
+            if (!groupList) {
+                return message.NO_SUCH_GROUP;
+            }
     
             const result = []
             for (group of groupList) {
                 result.push(await formatGroup(group))
             };
-            return result
+            return result;
 
         } catch (err) {
             throw err;
@@ -64,6 +154,9 @@ module.exports = {
                 'ex_cycle', 'ex_intensity', 'created_at', 'recruit_num'],
                 raw : true,
             });
+            if (!group) {
+                return message.CANNOT_FIND_GROUP;
+            }
 
             let parsedDate = group.created_at.toISOString()
             parsedDate = parsedDate.substr(0,10).split('-').join('.') + "~";
@@ -103,7 +196,6 @@ module.exports = {
             group.group_maker = groupMaker.name;
             group.achive_rate = achiveRate;
             
-
             return group;
 
         } catch (err) {
@@ -122,7 +214,10 @@ module.exports = {
                 },
                 attributes : ['id', 'name', 'profile_img'],
                 raw : true,
-            }); 
+            });
+            if (!members) {
+                return message.NO_MEMBER;
+            }
 
             for (member of members) {
                 if (!member.profile_img) {

@@ -8,14 +8,14 @@ const dateService = require('../service/dateService');
 const groupService = require('../service/groupService');
 
 module.exports = {
+
+    // 그룹 생성하기
     postNewGroup : async (req, res) => { 
 
         try {
-            // sport_id와 group_maker 는 다른 테이블에 저장
             const { group_name, recruit_num, is_public, intro_comment,
             ex_cycle, ex_intensity, group_sport, group_maker } = req.body; 
 
-            // null 값 처리
             if (!group_name || !recruit_num || !group_maker) {
                 return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.NULL_VALUE));
             } else if (is_public === null) {
@@ -26,43 +26,23 @@ module.exports = {
                 ex_intensity = "중";
             }
 
-            // 그룹 생성
             const newGroup = await Group.create({
-                group_name, // 그룹 이름
-                recruit_num, // 그룹 인원
-                is_public, // 그룹 공개 여부
-                intro_comment, // 그룹 소개 코멘트
-                ex_cycle, // 그룹 인증 주기
-                ex_intensity, // 그룹 인증 강도
-                group_sport // 그룹 운동 종목
+                group_name, 
+                recruit_num,
+                is_public,
+                intro_comment,
+                ex_cycle,
+                ex_intensity,
+                group_sport
             });
 
-            // 방금 생성한 그룹 아이디 추출
-            const findNewGroup = await Group.findOne({
-                where : {
-                    group_name: group_name,
-                },
-                attributes : ['id']
-            });
+            const signupFirstMem = await groupService.signUpFirstMember(group_name, group_maker);
 
-            const findGroupMaker = await User.findOne({
-                where : {
-                    name : group_maker,
-                },
-                attributes : ['id']
-            })
-
-            // 그룹 생성한 사람 그룹에 가입
-            const groupMakerJoin = await Join.create({
-                user_id : findGroupMaker.id,
-                group_id : findNewGroup.id,
-            });
-
-            const updateCurrentGroup = await User.update({current_group_id: findNewGroup.id}, {
-                where : {
-                    id : findGroupMaker.id
-                }
-            });
+            if (signupFirstMem == message.CANNOT_FIND_GROUP) {
+                return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.CANNOT_FIND_GROUP));
+            } else if (signupFirstMem == message.CANNOT_FIND_USER) {
+                return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.CANNOT_FIND_USER));
+            }
 
             return res.status(code.OK).send(util.success(code.OK, message.CREATE_GROUP_SUCCESS));
 
@@ -72,22 +52,12 @@ module.exports = {
         }
     }, 
 
+    // 그룹 목록 불러오기
     getGroupList : async (req, res) => {
-
-        // 쿼리로 name 가져오기 O
-        // name 에 해당하는 유저 찾고, 주기, 강도 가져오기 O
-        // 유저id 통해서 UserSport 가져오기 (콤마 포함 스트링으로) O
-        // 콤마 포함 스트링을 [OP.or] 활용해서 그룹 findAll 조건에 포함 O
-        // find All Atrributes [id, group_sport, group_name, 
-        // ex_cycle, ex_intensity, recruit_num]
-        // 가공해서 데이터로 추가적으로 넘겨줘야 하는 것 :
-        // 모집된 인원 (Join에서 group_id 에 해당하는 count, parsing_date )
 
         try {
 
             const user_name = req.params.userName;
-
-            // null 값 처리
             if (!user_name) {
                 return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.NULL_VALUE));
             }
@@ -100,34 +70,25 @@ module.exports = {
                 attributes : ['id', 'name', 'ex_cycle', 'ex_intensity'],
                 raw : true
             });
-            console.log(user)
 
-            // find user sports
-            let sports = await UserSport.findAll({
-                where : {
-                    user_id : user.id,
-                },
-                attributes : ['sport_id'],
-                raw : true
-            });
-            sports = sports.map(s => s.sport_id)
+            if (!user) {
+                return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.CANNOT_FIND_GROUP));
+            }
 
-            // find sports name
-            let userSport = await Sport.findAll({
-                where : {
-                    id : {
-                        [Op.or] : [sports],
-                    }
-                },
-                attributes : ['name'],
-                raw : true
-            });
-            userSport = userSport.map(u => u.name)
+            const userSport = await groupService.findUserSport(user.id);
+            if (userSport == message.CANNOT_FIND_SPORT) {
+                return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.CANNOT_FIND_SPORT));
+            } else if (userSport = message.CANNOT_FIND_USERSPORT) {
+                return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.CANNOT_FIND_USERSPORT));
+            }
 
             const groupList = await groupService.formatGroupList(user, userSport);
+            if (groupList == message.NO_SUCH_GROUP) {
+                return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.NO_SUCH_GROUP));
+            }
 
-            const userSportString = userSport.join()
-            user.sports = userSportString
+            const userSportString = userSport.join();
+            user.sports = userSportString;
 
             return res.status(code.OK).send(util.success(code.OK, message.GET_GROUPLIST_SUCCESS, {user, group_list: groupList}));
 
@@ -137,6 +98,7 @@ module.exports = {
         }
     },
 
+    // 그룹 상세보기 (가입 전)
     getGroupDetail : async (req, res) => {
 
         // parameter로 group_id 받아오기
@@ -148,13 +110,14 @@ module.exports = {
         try {
 
             const group_id = req.params.groupId;
-
-            // null 값 처리
             if (!group_id) {
                 return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.NULL_VALUE));
             }
 
             const groupDetail = await groupService.formatGroupDetail(group_id);
+            if (groupDetail == message.CANNOT_FIND_GROUP) {
+                return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.CANNOT_FIND_GROUP));
+            }
 
             return res.status(code.OK).send(util.success(code.OK, message.GET_GROUPDETAIL_SUCCESS, groupDetail));
 
@@ -164,6 +127,7 @@ module.exports = {
         }
     },
 
+    // 그룹 상세보기 (가입 후)
     getGroupDetailAfterSignUp : async (req, res) => {
 
         try {
@@ -176,7 +140,13 @@ module.exports = {
             }
 
             const group_detail = await groupService.formatGroupDetail(group_id);
+            if (group_detail == message.CANNOT_FIND_GROUP) {
+                return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.CANNOT_FIND_GROUP));
+            }
             const group_member = await groupService.getGroupMember(group_id);
+            if (group_member == message.NO_MEMBER) {
+                return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.NO_MEMBER));
+            }
 
             return res.status(code.OK).send(util.success(code.OK, message.GET_GROUPDETAIL_SUCCESS, {group_detail, group_member}));
 
