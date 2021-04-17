@@ -101,12 +101,6 @@ module.exports = {
     // 그룹 상세보기 (가입 전)
     getGroupDetail : async (req, res) => {
 
-        // parameter로 group_id 받아오기
-        // Group.findByPk(group_id) 
-        // attributes : [group_name, intro_comment, ex_cycle,
-        // ex_intensity, group_sport, created_at, recruit_num]
-        // 추가적으로 줘야하는 정보 -> group_maker, achive_rate, recruited_num 
-
         try {
 
             const group_id = req.params.groupId;
@@ -156,17 +150,14 @@ module.exports = {
         }
     },
 
+    // 그룹 가입하기
     groupJoin : async (req, res) => {
-
-        // userName param 으로 받아옴
-        // groupId query 로 받아옴
 
         try {
 
             const user_name = req.params.userName;
             const group_id = req.query.groupId;
 
-            // null 값 처리
             if (!group_id || !user_name) {
                 return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.NULL_VALUE));
             }
@@ -177,6 +168,9 @@ module.exports = {
                 },
                 attributes : ['id']
             });
+            if (!user_id) {
+                return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.NO_USER));
+            }
             user_id = user_id.id;
 
             const join = await Join.create({
