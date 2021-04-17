@@ -26,6 +26,12 @@ module.exports = {
     NO_SEARCH_RESULT : '그룹 검색 결과가 없습니다',
     GROUP_SEARCH_SUCCESS : '그룹 검색 성공',
     LEAVE_GROUP_SUCCESS : '그룹 탈퇴 성공',
+    CANNOT_FIND_GROUP : '그룹을 찾을 수 없음',
+    CANNOT_FIND_USER : '그룹 생성자를 찾을 수 없음',
+    CANNOT_FIND_SPORT : '해당 스포츠를 찾을 수 없음',
+    CANNOT_FIND_USERSPORT : '해당 유저의 운동종목 취향을 찾을 수 없음',
+    NO_SUCH_GROUP : '해당 조건에 맞는 그룹을 찾을 수 없음',
+    NO_MEMBER : '해당 그룹에 그룹원이 없습니다',
 
     /*Certi */
     NEW_CERTI_SUCCESS : '인증 게시물 올리기 성공',
