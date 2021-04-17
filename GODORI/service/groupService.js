@@ -74,7 +74,7 @@ module.exports = {
             // find user sports
             let sports = await UserSport.findAll({
                 where : {
-                    user_id : user.id,
+                    user_id,
                 },
                 attributes : ['sport_id'],
                 raw : true
