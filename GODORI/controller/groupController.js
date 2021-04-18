@@ -124,7 +124,7 @@ module.exports = {
     // 그룹 상세보기 (가입 후)
     getGroupDetailAfterSignUp : async (req, res) => {
 
-        try {
+        try { 
 
             const group_id = req.params.groupId;
 
