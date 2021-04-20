@@ -128,7 +128,7 @@ module.exports = {
 
             const group_id = req.params.groupId;
 
-            // null 값 처리
+            // null 값 처리 
             if (!group_id) {
                 return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.NULL_VALUE));
             }
