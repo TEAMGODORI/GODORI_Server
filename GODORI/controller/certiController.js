@@ -13,8 +13,8 @@ module.exports = {
         try {
             const user_name = req.params.userName;
             let { ex_time, ex_intensity, ex_evalu, ex_comment, certi_sport } = req.body;
-            const imageArray = await certiService.getImageUrl(req.files);
-            console.log(req.files);
+            const image = await certiService.getImageUrl(req.file);
+            console.log(req.file);
             console.log("로그")
 
             if (!user_name) {
@@ -45,6 +45,9 @@ module.exports = {
                 group_id : user.current_group_id,
             })
 
+            const addImages = await certiService.addImages(newCerti.id, image);
+            const addCountRate = await certiService.countAndRate(user.id, user.current_group_id);
+
             const certiSports = certi_sport.split(",");
             for (sport of certiSports) {
 
@@ -63,8 +66,7 @@ module.exports = {
                 });
             }
 
-            const addImages = await certiService.addImages(newCerti.id, imageArray);
-            const addCountRate = await certiService.countAndRate(user.id, user.current_group_id);
+            
 
             return res.status(code.OK).send(util.success(code.OK, message.NEW_CERTI_SUCCESS));
 

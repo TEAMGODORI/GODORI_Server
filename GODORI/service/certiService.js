@@ -6,15 +6,20 @@ module.exports = {
 
     getImageUrl: async (files) => {
         try {
-            if (files) {
+            // 원래 여러개인데 임시적으로 하나 받아오도록 바꿈 (이름 통일안됨)
+            // if (files) {
 
-                let imageArray = [];
-                let image = "";
-                for (file of files) {
-                    image = file.location
-                    imageArray.push(image);
-                }
-                return imageArray;
+            //     let imageArray = [];
+            //     let image = "";
+            //     for (file of files) {
+            //         image = file.location
+            //         imageArray.push(image);
+            //     }
+            //     return imageArray;
+            // }
+            if (files) {
+                const image = files.location;
+                return image;
             }
             return null;
         } catch (err) {
@@ -22,17 +27,36 @@ module.exports = {
         }
     },
 
-    addImages: async (certi_id, imageArray) => {
+    // addImages: async (certi_id, imageArray) => {
 
-        let file = ""
-        console.log(imageArray);
-        for (image of imageArray) {
-            file = await CertiImage.create({
-                certi_id,
-                image
-            })
-        }
+    //     let file = ""
+    //     console.log(imageArray);
+    //     for (image of imageArray) {
+    //         file = await CertiImage.create({
+    //             certi_id,
+    //             image
+    //         })
+    //     }
 
+    //     return 1;
+
+    // },
+
+        addImages: async (certi_id, image) => {
+
+        // let file = ""
+        // console.log(image);
+        // for (image of imageArray) {
+        //     file = await CertiImage.create({
+        //         certi_id,
+        //         image
+        //     })
+        // }
+        console.log(image)
+        let file = await CertiImage.create({
+            certi_id,
+            image
+        })
         return 1;
 
     },
@@ -58,7 +82,7 @@ module.exports = {
                 attributes : ['ex_cycle']
             });
 
-            const achive_rate = 0;
+            let achive_rate = 0;
             if (achive_rate >= 100) {
                 achive_rate = 100;
             } else {
