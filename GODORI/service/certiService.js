@@ -57,7 +57,13 @@ module.exports = {
                 },
                 attributes : ['ex_cycle']
             });
-            const achive_rate = parseInt((count/cycle.ex_cycle)*100);
+
+            const achive_rate = 0;
+            if (achive_rate >= 100) {
+                achive_rate = 100;
+            } else {
+                achive_rate = parseInt((count/cycle.ex_cycle)*100);
+            }
 
             //const update = {week_count:count, achive_rate}
             const updateCountrate = Join.update({week_count:count, achive_rate:achive_rate}, {

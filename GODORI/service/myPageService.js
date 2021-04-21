@@ -30,7 +30,7 @@ module.exports = {
                 });
 
                 if (certiImage) {
-                    certi.image = certiImage;
+                    certi.image = certiImage.image;
                 } else {
                     certi.image = "";
                 }
