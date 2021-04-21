@@ -7,6 +7,20 @@ const {Op} = require('sequelize');
 const dateService = require('../service/dateService');
 const userService = require('../service/userService');
 
+const sch = require('node-schedule');
+const rule = new sch.RecurrenceRule();
+
+// 매주 월요일 오전 12시 마다 Join achive_rate 초기화
+// const schedule = sch.scheduleJob('0 0 * * 1', async () => {
+//     try {
+
+//         const updateJoin = await Join.update
+
+//     } catch (err) {
+//         console.log(err);
+//     }
+// })
+
 module.exports = {
     updateExPrefer : async (req, res) => {
 
