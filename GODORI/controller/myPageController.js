@@ -15,6 +15,7 @@ module.exports = {
             const user_name = req.params.userName;
             // null 값 처리
             if (!user_name) {
+                console.log(message.NULL_VALUE);
                 return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.NULL_VALUE));
             }
 
@@ -45,9 +46,11 @@ module.exports = {
             const certi_list = await myPageService.formatCertiImage(user.id);
 
             if (certi_list == 0) {
+                console.log(message.NO_CERTI_YET);
                 return res.status(code.OK).send(util.success(code.OK, message.NO_CERTI_YET));
             }
 
+            console.log(message.GET_MYPAGE_INFO_SUCCESS, certi_list);
             return res.status(code.OK).send(util.success(code.OK, message.GET_MYPAGE_INFO_SUCCESS, {join, certi_list}));
 
         } catch (err) {
