@@ -15,6 +15,7 @@ module.exports = {
             let { ex_time, ex_intensity, ex_evalu, ex_comment, certi_sport } = req.body;
             const imageArray = await certiService.getImageUrl(req.files);
             console.log(req.files);
+            console.log("로그")
 
             if (!user_name) {
                 return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.NULL_VALUE));
