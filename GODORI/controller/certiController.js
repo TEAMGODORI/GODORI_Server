@@ -45,7 +45,9 @@ module.exports = {
                 group_id : user.current_group_id,
             })
 
-            const addImages = await certiService.addImages(newCerti.id, image);
+            if (!image) {
+                const addImages = await certiService.addImages(newCerti.id, image);
+            }
             const addCountRate = await certiService.countAndRate(user.id, user.current_group_id);
 
             const certiSports = certi_sport.split(",");
