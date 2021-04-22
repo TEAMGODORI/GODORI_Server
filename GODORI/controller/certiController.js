@@ -45,6 +45,7 @@ module.exports = {
                 group_id : user.current_group_id,
             })
 
+            console.log(image)
             if (!image) {
                 const addImages = await certiService.addImages(newCerti.id, image);
             }
