@@ -12,7 +12,7 @@ module.exports = {
 
         try {
             const user_name = req.params.userName;
-            let { ex_time, ex_intensity, ex_evalu, ex_comment, certi_sport } = req.body;
+            //let { ex_time, ex_intensity, ex_evalu, ex_comment, certi_sport } = req.body;
             const image = await certiService.getImageUrl(req.file);
             console.log(req.file);
             console.log("로그")
