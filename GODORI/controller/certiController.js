@@ -45,8 +45,16 @@ module.exports = {
             //     group_id : user.current_group_id,
             // })
 
+            // if (image != null) {
+            //     const addImages = await certiService.addImages(newCerti.id, image);
+            // }
+            const lastCerti = await Certification.findOne({
+                attributes : ['id'],
+                order : [['createdAt', 'DESC']],
+
+            })
             if (image != null) {
-                const addImages = await certiService.addImages(newCerti.id, image);
+                const addImages = await certiService.addImages(lastCerti.id, image);
             }
             const addCountRate = await certiService.countAndRate(user.id, user.current_group_id);
 
