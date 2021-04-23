@@ -10,12 +10,14 @@ const certiService = require('../service/certiService');
 module.exports = {
     postNewCerti : async (req, res) => {
 
+        console.log("try 전")
+        console.log(req.file);
         try {
             const user_name = req.params.userName;
             //let { ex_time, ex_intensity, ex_evalu, ex_comment, certi_sport } = req.body;
             const image = await certiService.getImageUrl(req.file);
             console.log(req.file);
-            console.log("로그")
+            console.log("try 후")
 
             if (!user_name) {
                 return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.NULL_VALUE));
