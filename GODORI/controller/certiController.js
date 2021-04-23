@@ -38,26 +38,26 @@ module.exports = {
                 return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.NO_USER));
             }
 
-            // const newCerti = await Certification.create({
-            //     ex_time,
-            //     ex_intensity,
-            //     ex_evalu,
-            //     ex_comment,
-            //     user_id : user.id,
-            //     group_id : user.current_group_id,
-            // })
-
-            // if (image != null) {
-            //     const addImages = await certiService.addImages(newCerti.id, image);
-            // }
-            const lastCerti = await Certification.findOne({
-                attributes : ['id'],
-                order : [['created_at', 'DESC']],
-
+            const newCerti = await Certification.create({
+                ex_time : "20분",
+                ex_intensity : "상",
+                ex_evalu : "쏘쏘",
+                ex_comment : "시원하게 땀 흘렸어요",
+                user_id : user.id,
+                group_id : user.current_group_id,
             })
+
             if (image != null) {
-                const addImages = await certiService.addImages(lastCerti.id+1, image);
+                const addImages = await certiService.addImages(newCerti.id, image);
             }
+            // const lastCerti = await Certification.findOne({
+            //     attributes : ['id'],
+            //     order : [['created_at', 'DESC']],
+
+            // })
+            // if (image != null) {
+            //     const addImages = await certiService.addImages(lastCerti.id+1, image);
+            // }
             // const addCountRate = await certiService.countAndRate(user.id, user.current_group_id);
 
             // const certiSports = certi_sport.split(",");
