@@ -12,19 +12,19 @@ module.exports = {
 
         try {
             const user_name = req.params.userName;
-            let { ex_time, ex_intensity, ex_evalu, ex_comment, certi_sport } = req.body;
+            //let { ex_time, ex_intensity, ex_evalu, ex_comment, certi_sport } = req.body;
             const image = await certiService.getImageUrl(req.file);
             console.log(req.file);
-            console.log("로그")
+            //console.log("로그")
 
             if (!user_name) {
                 return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.NULL_VALUE));
             }
-            if (!ex_time) {
-                ex_time = "20분";
-            } else if (!ex_intensity) {
-                ex_intensity = "중";
-            }
+            // if (!ex_time) {
+            //     ex_time = "20분";
+            // } else if (!ex_intensity) {
+            //     ex_intensity = "중";
+            // }
 
             const user = await User.findOne({
                 where : {
@@ -36,37 +36,37 @@ module.exports = {
                 return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.NO_USER));
             }
 
-            const newCerti = await Certification.create({
-                ex_time,
-                ex_intensity,
-                ex_evalu,
-                ex_comment,
-                user_id : user.id,
-                group_id : user.current_group_id,
-            })
+            // const newCerti = await Certification.create({
+            //     ex_time,
+            //     ex_intensity,
+            //     ex_evalu,
+            //     ex_comment,
+            //     user_id : user.id,
+            //     group_id : user.current_group_id,
+            // })
 
             if (image != null) {
                 const addImages = await certiService.addImages(newCerti.id, image);
             }
             const addCountRate = await certiService.countAndRate(user.id, user.current_group_id);
 
-            const certiSports = certi_sport.split(",");
-            for (sport of certiSports) {
+            // const certiSports = certi_sport.split(",");
+            // for (sport of certiSports) {
 
-                // 스포츠 아이디 find
-                let sportName = await Sport.findOne({
-                    where : {
-                        name: sport
-                    },
-                    attributes : ['id']
-                })
+            //     // 스포츠 아이디 find
+            //     let sportName = await Sport.findOne({
+            //         where : {
+            //             name: sport
+            //         },
+            //         attributes : ['id']
+            //     })
 
-                //  인증 운동종목 저장
-                let newCertiSports = await CertiSport.create({
-                    certi_id: newCerti.id,
-                    sport_id: sportName.id
-                });
-            }
+            //     //  인증 운동종목 저장
+            //     let newCertiSports = await CertiSport.create({
+            //         certi_id: newCerti.id,
+            //         sport_id: sportName.id
+            //     });
+            // }
 
             
 
