@@ -12,10 +12,10 @@ module.exports = {
 
         try {
             const user_name = req.params.userName;
-            //let { ex_time, ex_intensity, ex_evalu, ex_comment, certi_sport } = req.body;
+            let { ex_time, ex_intensity, ex_evalu, ex_comment, certi_sport } = req.body;
             const image = await certiService.getImageUrl(req.file);
             console.log(req.file);
-            //console.log("로그")
+            console.log("로그")
 
             if (!user_name) {
                 return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.NULL_VALUE));
@@ -50,13 +50,13 @@ module.exports = {
             // }
             const lastCerti = await Certification.findOne({
                 attributes : ['id'],
-                order : [['createdAt', 'DESC']],
+                order : [['created_at', 'DESC']],
 
             })
             if (image != null) {
-                const addImages = await certiService.addImages(lastCerti.id, image);
+                const addImages = await certiService.addImages(lastCerti.id+1, image);
             }
-            const addCountRate = await certiService.countAndRate(user.id, user.current_group_id);
+            // const addCountRate = await certiService.countAndRate(user.id, user.current_group_id);
 
             // const certiSports = certi_sport.split(",");
             // for (sport of certiSports) {
