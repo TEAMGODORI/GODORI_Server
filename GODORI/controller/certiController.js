@@ -8,25 +8,42 @@ const dateService = require('../service/dateService');
 const certiService = require('../service/certiService');
 
 module.exports = {
-    postNewCerti : async (req, res) => {
 
-        console.log("try 전")
-        console.log(req.file);
+    postCertiImage : async (req, res) => {
+
+        try {
+            const certi_id = req.params.certiId;
+            const image = await certiService.getImageUrl(req.file);
+            console.log(image)
+
+            if (image != null) {
+                const addImages = await certiService.addImages(certi_id, image);
+            } else if (image == null) {
+                return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.NULL_VALUE));
+            }
+
+            return res.status(code.OK).send(util.success(code.OK, message.POST_CERTI_IMAGE_SUCCESS));
+
+        } catch (err) {
+            console.error(err);
+            return res.status(code.INTERNAL_SERVER_ERROR).send(util.fail(code.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR));
+        }
+    },
+
+    postCertiBody : async (req, res) => {
+
         try {
             const user_name = req.params.userName;
-            //let { ex_time, ex_intensity, ex_evalu, ex_comment, certi_sport } = req.body;
-            const image = await certiService.getImageUrl(req.file);
-            console.log(req.file);
-            console.log("try 후")
-
+            let { ex_time, ex_intensity, ex_evalu, ex_comment, certi_sport } = req.body;
+            console.log(req.body)
             if (!user_name) {
                 return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.NULL_VALUE));
             }
-            // if (!ex_time) {
-            //     ex_time = "20분";
-            // } else if (!ex_intensity) {
-            //     ex_intensity = "중";
-            // }
+            if (!ex_time) {
+                ex_time = "20분";
+            } else if (!ex_intensity) {
+                ex_intensity = "중";
+            }
 
             const user = await User.findOne({
                 where : {
@@ -39,48 +56,35 @@ module.exports = {
             }
 
             const newCerti = await Certification.create({
-                ex_time : "20분",
-                ex_intensity : "상",
-                ex_evalu : "쏘쏘",
-                ex_comment : "시원하게 땀 흘렸어요",
+                ex_time : ex_time,
+                ex_intensity : ex_intensity,
+                ex_evalu : ex_evalu,
+                ex_comment : ex_comment,
                 user_id : user.id,
                 group_id : user.current_group_id,
             })
 
-            if (image != null) {
-                const addImages = await certiService.addImages(newCerti.id, image);
+            const addCountRate = await certiService.countAndRate(user.id, user.current_group_id);
+
+            const certiSports = certi_sport.split(",");
+            for (sport of certiSports) {
+
+                // 스포츠 아이디 find
+                let sportName = await Sport.findOne({
+                    where : {
+                        name: sport
+                    },
+                    attributes : ['id']
+                })
+
+                //  인증 운동종목 저장
+                let newCertiSports = await CertiSport.create({
+                    certi_id: newCerti.id,
+                    sport_id: sportName.id
+                });
             }
-            // const lastCerti = await Certification.findOne({
-            //     attributes : ['id'],
-            //     order : [['created_at', 'DESC']],
 
-            // })
-            // if (image != null) {
-            //     const addImages = await certiService.addImages(lastCerti.id+1, image);
-            // }
-            // const addCountRate = await certiService.countAndRate(user.id, user.current_group_id);
-
-            // const certiSports = certi_sport.split(",");
-            // for (sport of certiSports) {
-
-            //     // 스포츠 아이디 find
-            //     let sportName = await Sport.findOne({
-            //         where : {
-            //             name: sport
-            //         },
-            //         attributes : ['id']
-            //     })
-
-            //     //  인증 운동종목 저장
-            //     let newCertiSports = await CertiSport.create({
-            //         certi_id: newCerti.id,
-            //         sport_id: sportName.id
-            //     });
-            // }
-
-            
-
-            return res.status(code.OK).send(util.success(code.OK, message.NEW_CERTI_SUCCESS));
+            return res.status(code.OK).send(util.success(code.OK, message.POST_CERTI_BODY_SUCCESS));
 
         } catch (err) {
             console.error(err);

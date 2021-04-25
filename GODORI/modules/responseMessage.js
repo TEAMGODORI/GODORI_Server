@@ -34,7 +34,8 @@ module.exports = {
     NO_MEMBER : '해당 그룹에 그룹원이 없습니다',
 
     /*Certi */
-    NEW_CERTI_SUCCESS : '인증 게시물 올리기 성공',
+    POST_CERTI_BODY_SUCCESS : '인증 게시물 내용 올리기 성공',
+    POST_CERTI_IMAGE_SUCCESS : '인증 게시물 사진 올리기 성공',
     GET_CERTIDETAIL_SUCCESS : '인증 게시물 상세보기 성공',
     GET_CERTILIST_SUCCESS : '해당 날짜 인증 게시물 가져오기 성공',
     LIKE_SUCCESS : '좋아요 성공',
