@@ -39,7 +39,7 @@ module.exports = {
     GET_CERTILIST_SUCCESS : '해당 날짜 인증 게시물 가져오기 성공',
     LIKE_SUCCESS : '좋아요 성공',
     LIKE_CANCEL_SUCCESS : '좋아요 취소 성공',
-    NO_CERTI_YET : '아직 인증 게시물이 없습니다',
+    NO_CERTI_YET : '아직 인증 게시물이 없습니다', 
 
     /*User*/
     CHANGE_EXPREFER_SUCCESS : '운동 취향 수정 성공',
