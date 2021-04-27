@@ -63,6 +63,7 @@ module.exports = {
                 user_id : user.id,
                 group_id : user.current_group_id,
             })
+            const id = newCerti.id
 
             const addCountRate = await certiService.countAndRate(user.id, user.current_group_id);
 
@@ -84,7 +85,7 @@ module.exports = {
                 });
             }
 
-            return res.status(code.OK).send(util.success(code.OK, message.POST_CERTI_BODY_SUCCESS));
+            return res.status(code.OK).send(util.success(code.OK, message.POST_CERTI_BODY_SUCCESS, id));
 
         } catch (err) {
             console.error(err);
