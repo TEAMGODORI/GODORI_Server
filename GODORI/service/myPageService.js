@@ -20,7 +20,7 @@ module.exports = {
                 return 0;
             }
 
-            for (certi of certi_list) { 
+            for (certi of certi_list) {
    
                 let certiImage = await CertiImage.findOne({
                     where : {
