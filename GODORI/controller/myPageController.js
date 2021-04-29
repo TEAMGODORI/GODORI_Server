@@ -50,7 +50,6 @@ module.exports = {
                 return res.status(code.OK).send(util.success(code.OK, message.NO_CERTI_YET));
             }
 
-            console.log(message.GET_MYPAGE_INFO_SUCCESS, join, certi_list);
             return res.status(code.OK).send(util.success(code.OK, message.GET_MYPAGE_INFO_SUCCESS, {join, certi_list}));
 
         } catch (err) {
