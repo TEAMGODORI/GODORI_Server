@@ -83,7 +83,7 @@ module.exports = {
             });
 
             let achive_rate = 0;
-            if (achive_rate >= 100) {
+            if (countrate.achive_rate >= 100) {
                 achive_rate = 100;
             } else {
                 achive_rate = parseInt((count/cycle.ex_cycle)*100);
