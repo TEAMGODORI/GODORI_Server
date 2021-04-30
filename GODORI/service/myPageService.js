@@ -13,6 +13,7 @@ module.exports = {
                     user_id
                 },
                 attributes : ['id'],
+                order : [['created_at', 'DESC']],
                 raw : true,
             });
 
