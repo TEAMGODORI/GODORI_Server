@@ -157,6 +157,7 @@ module.exports = {
                     }
                 },
                 attributes : ['id', 'user_id'],
+                order : [['created_at', 'DESC']],
                 raw : true,
             });
 
