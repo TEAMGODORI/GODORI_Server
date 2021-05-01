@@ -23,8 +23,13 @@ module.exports = {
                 where : {
                     name : user_name
                 },
-                attributes : ['id', 'current_group_id']
+                attributes : ['id', 'current_group_id', 'profile_img']
             });
+
+            const profile = {
+                name : user_name,
+                image : user.profile_img
+            }
 
             let join = {
                 achive_rate : 0,
@@ -50,7 +55,7 @@ module.exports = {
                 return res.status(code.OK).send(util.success(code.OK, message.NO_CERTI_YET));
             }
 
-            return res.status(code.OK).send(util.success(code.OK, message.GET_MYPAGE_INFO_SUCCESS, {join, certi_list}));
+            return res.status(code.OK).send(util.success(code.OK, message.GET_MYPAGE_INFO_SUCCESS, {profile, join, certi_list}));
 
         } catch (err) {
             console.error(err);
