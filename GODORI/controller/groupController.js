@@ -232,21 +232,22 @@ module.exports = {
         }
     },
 
+    // 그룹 검색하기
     groupSearch : async (req, res) => {
         
         try {
 
-            const search = req.query.search;
-            if (!search) {
-                return res.status(code.OK).send(util.success(code.OK, message.NO_SEARCH_RESULT));
-            }
+            // const search = req.query.search;
+            // if (!search) {
+            //     return res.status(code.OK).send(util.success(code.OK, message.NO_SEARCH_RESULT));
+            // }
         
             const searchResult = await Group.findAll({
-                where : {
-                    group_name : {
-                        [Op.like] : "%" + search + "%"
-                    }
-                },
+                // where : {
+                //     group_name : {
+                //         [Op.like] : "%" + search + "%"
+                //     }
+                // },
                 attributes : ['id', 'group_name'],
                 raw : true
             });
@@ -259,6 +260,7 @@ module.exports = {
         }
     },
 
+    // 그룹 탈퇴하기
     leaveGroup : async (req, res) => {
 
         try {
