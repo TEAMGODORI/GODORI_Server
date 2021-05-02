@@ -26,6 +26,8 @@ module.exports = {
                 ex_intensity = "중";
             }
 
+            const group_image = await groupService.putGroupImage(group_sport);
+
             const newGroup = await Group.create({
                 group_name, 
                 recruit_num,
@@ -33,7 +35,8 @@ module.exports = {
                 intro_comment,
                 ex_cycle,
                 ex_intensity,
-                group_sport
+                group_sport,
+                group_image
             });
 
             const signupFirstMem = await groupService.signUpFirstMember(group_name, group_maker);
