@@ -33,6 +33,10 @@ module.exports = (sequelize, DataTypes) => {
         group_sport: {
             type: DataTypes.STRING,
             allowNull:true,
+        },
+        group_image: {
+            type: DataTypes.STRING,
+            allowNull: true,
         }
     }, {
         freezeTableName: true,

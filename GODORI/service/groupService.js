@@ -20,7 +20,60 @@ const formatGroup = async (group) => {
 
 }
 
+const randomImage = async (images) => {
+    return images[Math.floor(Math.random() * images.length)];
+}
+
 module.exports = {
+
+    putGroupImage : async (group_sport) => {
+
+        try {
+
+            let image_uri = "";
+
+            const yogaPilte = new Array('https://beme-bucket.s3.ap-northeast-2.amazonaws.com/images/origin/1619939685923.png',
+            'https://beme-bucket.s3.ap-northeast-2.amazonaws.com/images/origin/1619939698887.png',
+            'https://beme-bucket.s3.ap-northeast-2.amazonaws.com/images/origin/1619939737828.png')
+
+            const health = new Array ('https://beme-bucket.s3.ap-northeast-2.amazonaws.com/images/origin/1619939753150.png',
+            'https://beme-bucket.s3.ap-northeast-2.amazonaws.com/images/origin/1619939886604.png')
+
+            const running = new Array ('https://beme-bucket.s3.ap-northeast-2.amazonaws.com/images/origin/1619939829808.png')
+
+            const bicycle = new Array('https://beme-bucket.s3.ap-northeast-2.amazonaws.com/images/origin/1619941022092.png',
+            'https://beme-bucket.s3.ap-northeast-2.amazonaws.com/images/origin/1619941028235.png',
+            'https://beme-bucket.s3.ap-northeast-2.amazonaws.com/images/origin/1619941033260.png')
+
+            const swimming = new Array('https://beme-bucket.s3.ap-northeast-2.amazonaws.com/images/origin/1619941160835.png',
+            'https://beme-bucket.s3.ap-northeast-2.amazonaws.com/images/origin/1619941165344.png')
+
+            const mount = new Array('https://beme-bucket.s3.ap-northeast-2.amazonaws.com/images/origin/1619941218961.png')
+
+
+
+            if (group_sport == "요가/필테") {
+                image_uri = randomImage(yogaPilte);
+            } else if (group_sport == "등산") {
+                image_uri = randomImage(mount);
+            } else if (group_sport == "헬스") {
+                image_uri = randomImage(health);
+            } else if (group_sport == "자전거") {
+                image_uri = randomImage(bicycle);
+            } else if (group_sport == "수영") {
+                image_uri = randomImage(swimming);
+            } else if (group_sport == "런닝") {
+                image_uri = randomImage(running);
+            }
+
+            return image_uri;
+
+
+        } catch (err) {
+            throw err;
+        }
+
+    },
 
     signUpFirstMember : async (group_name, group_maker) => {
 
