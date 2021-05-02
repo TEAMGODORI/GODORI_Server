@@ -62,7 +62,7 @@ module.exports = {
                 image_uri = randomImage(bicycle);
             } else if (group_sport == "수영") {
                 image_uri = randomImage(swimming);
-            } else if (group_sport == "런닝") {
+            } else if (group_sport == "러닝") {
                 image_uri = randomImage(running);
             }
 
