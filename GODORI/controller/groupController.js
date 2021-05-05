@@ -101,6 +101,27 @@ module.exports = {
         }
     },
 
+    // 이런그룹어때요 그룹 목록 불러오기
+    getAnyGroupList : async (req, res) => {
+
+        try {
+
+            const groupList = await Group.findAll({
+                limit : 6,
+                attributes : ['id', 'group_sport', 'group_name', 'group_image', 'intro_comment',
+                'ex_cycle', 'ex_intensity', 'created_at', 'recruit_num'],
+                order : [['created_at', 'DESC']],
+                raw : true,
+            });
+
+            return res.status(code.OK).send(util.success(code.OK, message.GET_GROUPLIST_SUCCESS, groupList));
+
+        } catch (err) {
+            console.error(err);
+            return res.status(code.INTERNAL_SERVER_ERROR).send(util.fail(code.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR));
+        }
+    },
+
     // 그룹 상세보기 (가입 전)
     getGroupDetail : async (req, res) => {
 
