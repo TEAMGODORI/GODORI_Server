@@ -234,10 +234,12 @@ module.exports = {
                 raw : true,
             });
             const groupMemberId = groupMember.map(m => m.user_id);
+            console.log(groupMemberId);
 
             // 그룹 만든 사람
             let groupMaker = groupMemberId[0];
             groupMaker = await User.findByPk(groupMaker);
+            console.log(groupMaker.name)
         
             // 이번주 평균 달성률
             let sum = 0
