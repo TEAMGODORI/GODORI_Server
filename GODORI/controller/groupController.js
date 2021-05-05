@@ -47,7 +47,7 @@ module.exports = {
                 return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.CANNOT_FIND_USER));
             }
 
-            return res.status(code.OK).send(util.success(code.OK, message.CREATE_GROUP_SUCCESS));
+            return res.status(code.OK).send(util.success(code.OK, message.CREATE_GROUP_SUCCESS, group_image));
 
         } catch (err) {
             console.error(err);
