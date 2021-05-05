@@ -7,6 +7,8 @@ const group = require('../../models/group');
 router.post('/', groupController.postNewGroup);
 // 그룹 목록 가져오기
 router.get('/list/:userName', groupController.getGroupList);
+// 이런 그룹 어때요 그룹 목록 가져오기
+router.get('/before/list', groupController.getAnyGroupList);
 // 그룹 상세보기
 router.get('/detail/:groupId', groupController.getGroupDetail);
 // 그룹 상세보기 (그룹 가입 후)
