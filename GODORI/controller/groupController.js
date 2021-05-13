@@ -36,7 +36,8 @@ module.exports = {
                 ex_cycle,
                 ex_intensity,
                 group_sport,
-                group_image
+                group_image,
+                group_maker
             });
 
             const signupFirstMem = await groupService.signUpFirstMember(group_name, group_maker);
@@ -311,12 +312,16 @@ module.exports = {
                 },
             });
 
+            // join delete
             const deleteJoin = await Join.destroy({
                 where : {
                     user_id : user.id,
                     group_id : user.current_group_id
                 }
             });
+
+            // 남은 멤버 없을 시 그룹 삭제
+            const deleteGroup = await groupService.deleteEmptyGroup(user.current_group_id);
 
             return res.status(code.OK).send(util.success(code.OK, message.LEAVE_GROUP_SUCCESS));
 
