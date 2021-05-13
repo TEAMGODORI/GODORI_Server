@@ -14,6 +14,7 @@ module.exports = {
     NO_USER: "존재하지않는 유저 id 입니다.",
     POST_TOKEN_SUCCESS: '토큰 등록하기 성공',
     SEND_PUSH_MESSAGE_SUCCESS: '푸시 알람 전송 성공',
+    USER_LOGIN_SUCCESS: "로그인 성공",
 
     /*Group */
     NO_GROUP_NAME : '그룹 제목이 비었습니다',
