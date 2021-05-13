@@ -74,7 +74,7 @@ module.exports = {
 
         try {
 
-            const kakao_id = req.params.kakao_id;
+            const kakao_id = req.params.kakaoId;
 
             const user = await User.findOne({
                 where : {
@@ -83,17 +83,17 @@ module.exports = {
                 attributes : ['id', 'nickname', 'current_group_id']
             });
 
-            if (user.length == 0) { // 첫로그인 이라면
+            if (user.length == 0) { // 첫로그인 이라면 계속 진행
                 return res.status(code.OK).send(util.success(code.OK, message.FIRST_LOGIN, 1));
 
             } else { // 첫로그인이 아니라면
 
                 const group_id = user.current_group_id;
 
-                if (group_id == 0) { // 사용자가 가입한 그룹이 없다면
+                if (group_id == 0) { // 사용자가 가입한 그룹이 없다면 가입 전 그룹탭
                     return res.status(code.OK).send(util.success(code.OK, message.NOT_FIRST_BUT_NOGROUP, {group_id}));
 
-                } else { // 사용자가 가입한 그룹이 있다면
+                } else { // 사용자가 가입한 그룹이 있다면 가입 후 그룹탭
 
                     const left_count = await groupService.getWeekLeftCount(user);
 
