@@ -37,6 +37,10 @@ module.exports = (sequelize, DataTypes) => {
         group_image: {
             type: DataTypes.STRING,
             allowNull: true,
+        },
+        group_maker: {
+            type: DataTypes.STRING,
+            allowNull: true,
         }
     }, {
         freezeTableName: true,

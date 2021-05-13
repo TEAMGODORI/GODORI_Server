@@ -204,7 +204,7 @@ module.exports = {
                     id : group_id,
                     is_public : true,
                 },
-                attributes : ['id', 'group_sport', 'group_name', 'group_image', 'intro_comment',
+                attributes : ['id', 'group_sport', 'group_name', 'group_image', 'group_maker', 'intro_comment',
                 'ex_cycle', 'ex_intensity', 'created_at', 'recruit_num'],
                 raw : true,
             });
@@ -235,11 +235,6 @@ module.exports = {
             });
             const groupMemberId = groupMember.map(m => m.user_id);
             console.log(groupMemberId);
-
-            // 그룹 만든 사람
-            let groupMaker = groupMemberId[0];
-            groupMaker = await User.findByPk(groupMaker);
-            console.log(groupMaker.name)
         
             // 이번주 평균 달성률
             let sum = 0
@@ -249,7 +244,6 @@ module.exports = {
             const achiveRate = parseInt(sum / groupMember.length);
 
             group.recruited_num = recruitedNum;
-            group.group_maker = groupMaker.name;
             group.achive_rate = achiveRate;
             
             return group;
@@ -402,5 +396,31 @@ module.exports = {
         }
 
     },
+
+    deleteEmptyGroup : async (group_id) => {
+
+        try {
+
+            const join = await Join.findAll({
+                where : {
+                    group_id
+                },
+                attributes : ['user_id']
+            });
+
+            if (join.length == 0) {
+                const deleteGroup = await Group.destroy({
+                    where : {
+                        id : group_id
+                    }
+                });
+            }
+
+            return 1;
+
+        } catch (err) {
+            throw err;
+        }
+    }
 
 }
