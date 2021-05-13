@@ -6,6 +6,7 @@ const { User, Group, Join, UserSport, Sport, Certification } = require('../model
 const {Op} = require('sequelize');
 const dateService = require('../service/dateService');
 const userService = require('../service/userService');
+const certiService = require('../service/certiService');
 
 const sch = require('node-schedule');
 const rule = new sch.RecurrenceRule();
@@ -22,6 +23,53 @@ const rule = new sch.RecurrenceRule();
 // })
 
 module.exports = {
+    login : async (req, res) => {
+        try {
+
+            const {name, nickname, profile_img, kakao_id, user_sport} = req.body;
+            const image = await certiService.getImageUrl(req.file);
+
+            if (!name || !nickname || !profile_img || !kakao_id) {
+                return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.NULL_VALUE));
+            }
+
+            const newUser = await User.create({
+                name,
+                nickname,
+                profile_img,
+                kakao_id,
+                ex_cycle : 3,
+                ex_intensity : "중",
+                current_group_id : 0
+            });
+            const user_id = newUser.id
+
+            const userSports = user_sport.split(",");
+            for (sport of userSports) {
+
+                // 스포츠 아이디 find
+                let sportName = await Sport.findOne({
+                    where : {
+                        name: sport
+                    },
+                    attributes : ['id']
+                })
+
+                //  유저 운동종목 저장
+                let newUserSports = await UserSport.create({
+                    user_id,
+                    sport_id: sportName.id
+                });
+            }
+
+            return res.status(code.OK).send(util.success(code.OK, message.USER_LOGIN_SUCCESS, nickname));
+
+        } catch (err) {
+            console.error(err);
+            return res.status(code.INTERNAL_SERVER_ERROR).send(util.fail(code.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR));
+        }
+    },
+
     updateExPrefer : async (req, res) => {
 
         try {

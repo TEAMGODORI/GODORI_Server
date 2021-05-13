@@ -10,13 +10,9 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING(10),
             allowNull: false,
         },
-        password: { // 비밀번호
-            type: DataTypes.STRING(200),
-            allowNull: false,
-        },
-        salt: {
-            type: DataTypes.STRING(200),
-            allowNull: false,
+        kakao_id: { // 카카오톡 회원 id
+            type: DataTypes.INTEGER,
+            allowNull: true,
         },
         profile_img: { // 프로필 이미지
             type: DataTypes.STRING(100),
