@@ -16,7 +16,7 @@ router.get('/after/detail/:groupId', groupController.getGroupDetailAfterSignUp);
 // 그룹 가입하기
 router.post('/join/:userName', groupController.groupJoin);
 // 그룹 이름, 이번주 남은 운동 횟수, 모든 멤버 달성률 가져오기
-router.get('/member/:userName', groupController.afterSignUpInfo);
+router.get('/member/:kakaoId', groupController.afterSignUpInfo);
 // 그룹 검색하기
 router.get('/', groupController.groupSearch);
 // 그룹 탈퇴하기

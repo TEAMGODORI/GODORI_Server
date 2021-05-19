@@ -213,14 +213,14 @@ module.exports = {
 
         try {
 
-            const user_name = req.params.userName;
-            if (!user_name) {
+            const kakao_id = req.params.kakaoId;
+            if (!kakao_id) {
                 return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.NULL_VALUE));
             }
 
             const user = await User.findOne({
                 where : {
-                    name : user_name
+                    kakao_id : kakao_id
                 },
                 attributes : ['id', 'current_group_id']
             });
