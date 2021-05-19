@@ -75,7 +75,7 @@ module.exports = {
 
     },
 
-    signUpFirstMember : async (group_name, group_maker) => {
+    signUpFirstMember : async (group_name, user) => {
 
         try {
 
@@ -90,25 +90,14 @@ module.exports = {
                 return message.CANNOT_FIND_GROUP;
             }
 
-            const findGroupMaker = await User.findOne({
-                where : {
-                    nickname : group_maker,
-                },
-                attributes : ['id']
-            });
-
-            if (!findGroupMaker) {
-                return message.CANNOT_FIND_USER;
-            }
-
             const groupMakerJoin = await Join.create({
-                user_id : findGroupMaker.id,
+                user_id : user.id,
                 group_id : findNewGroup.id,
             });
 
             const updateCurrentGroup = await User.update({current_group_id: findNewGroup.id}, {
                 where : {
-                    id : findGroupMaker.id
+                    id : user.id
                 }
             });
             

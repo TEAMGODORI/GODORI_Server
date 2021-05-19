@@ -53,7 +53,7 @@ module.exports = {
                 group_maker : user.nickname
             });
 
-            const signupFirstMem = await groupService.signUpFirstMember(group_name, group_maker);
+            const signupFirstMem = await groupService.signUpFirstMember(group_name, user);
 
             if (signupFirstMem == message.CANNOT_FIND_GROUP) {
                 return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.CANNOT_FIND_GROUP));
