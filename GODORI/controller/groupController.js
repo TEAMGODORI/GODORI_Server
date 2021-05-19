@@ -181,7 +181,7 @@ module.exports = {
         try {
 
             const user_name = req.params.userName;
-            const group_id = req.query.groupId;
+            const group_id = parseInt(req.query.groupId);
 
             if (!group_id || !user_name) {
                 return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.NULL_VALUE));
