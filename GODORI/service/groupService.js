@@ -284,7 +284,7 @@ module.exports = {
 
     joinGroup : async (user_id, group_id) => {
         try {
-            print("조인 생성")
+            console.log("조인 생성")
             // 만약 이미 가입했다가 탈퇴한 그룹이라면 예외처리 추가해야함
             const join = await Join.create({
                 user_id,
@@ -292,7 +292,7 @@ module.exports = {
                 achive_rate : 0,
                 week_count : 0
             });
-            print("현재그룹 업데이트")
+            console.log("현재그룹 업데이트")
             const updateCurrentGroup = await User.update({current_group_id: group_id}, {
                 where : {
                     id : user_id
