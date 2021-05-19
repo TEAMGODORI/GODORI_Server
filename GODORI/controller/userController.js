@@ -156,23 +156,23 @@ module.exports = {
 
         try {
 
-            const user_name = req.params.userName;
+            const kakao_id = req.params.kakaoId;
             const {ex_cycle, ex_intensity, sports} = req.body;
             // null 값 처리
-            if (!user_name) {
+            if (!kakao_id) {
                 return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.NULL_VALUE));
             }
 
             const user = await User.findOne({
                 where : {
-                    name : user_name
+                    kakao_id : kakao_id
                 },
                 attributes : ['id']
             });
 
             const changeExPrefer = await User.update({ex_cycle, ex_intensity}, {
                 where : {
-                    name : user_name
+                    kakao_id : kakao_id
                 },
             });
 

@@ -33,10 +33,10 @@ module.exports = {
     postCertiBody : async (req, res) => {
 
         try {
-            const user_name = req.params.userName;
+            const kakao_id = req.params.kakaoId;
             let { ex_time, ex_intensity, ex_evalu, ex_comment, certi_sport } = req.body;
             console.log(req.body)
-            if (!user_name) {
+            if (!kakao_id) {
                 return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.NULL_VALUE));
             }
             if (!ex_time) {
@@ -47,7 +47,7 @@ module.exports = {
 
             const user = await User.findOne({
                 where : {
-                    name: user_name,
+                    kakao_id: kakao_id,
                 },
                 attributes : ['id', 'current_group_id'],
             });
@@ -96,12 +96,12 @@ module.exports = {
     getCertiDetail : async (req, res) => {
 
         try {
-            const user_name = req.params.userName;
+            const kakao_id = req.params.kakaoId;
             const certi_id = req.query.certiId;
-            console.log(user_name) 
+            console.log(kakao_id) 
             const user = await User.findOne({
                 where : {
-                    name : user_name
+                    kakao_id : kakao_id
                 },
                 attributes : ['id']
             });
@@ -124,7 +124,7 @@ module.exports = {
 
         try {
 
-            const user_name = req.params.userName;
+            const kakao_id = req.params.kakaoId;
 
             const date = req.query.date;
             let startDate = date + " 00:00:00";
@@ -132,7 +132,7 @@ module.exports = {
             let endDate = date + " 23:59:59";
             endDate = Date.parse(endDate);
 
-            if (!user_name) {
+            if (!kakao_id) {
                 return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.NULL_VALUE));
             }
             if (!date) {
@@ -141,7 +141,7 @@ module.exports = {
 
             const user = await User.findOne({
                 where : {
-                    name : user_name
+                    kakao_id : kakao_id
                 },
                 attributes : ['current_group_id']
             });
@@ -175,16 +175,16 @@ module.exports = {
 
         try {
 
-            const user_name = req.params.userName;
+            const kakao_id = req.params.kakaoId;
             const certi_id = req.query.certiId;
 
-            if (!certi_id || !user_name) {
+            if (!certi_id || !kakao_id) {
                 return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.NULL_VALUE));
             }
 
             const user = await User.findOne({
                 where : {
-                    name : user_name
+                    kakao_id : kakao_id
                 },
                 attributes : ['id'] 
             });

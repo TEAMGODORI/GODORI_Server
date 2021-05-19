@@ -61,15 +61,15 @@ module.exports = {
 
         try {
 
-            const user_name = req.params.userName;
-            if (!user_name) {
+            const kakao_id = req.params.kakaoId;
+            if (!kakao_id) {
                 return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.NULL_VALUE));
             }
 
             // find User
             const user = await User.findOne({
                 where : {
-                    name : user_name,
+                    kakao_id : kakao_id,
                 },
                 attributes : ['id', 'name', 'ex_cycle', 'ex_intensity'],
                 raw : true
@@ -180,16 +180,16 @@ module.exports = {
 
         try {
 
-            const user_name = req.params.userName;
+            const kakao_id = req.params.kakaoId;
             const group_id = parseInt(req.query.groupId);
 
-            if (!group_id || !user_name) {
+            if (!group_id || !kakao_id) {
                 return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.NULL_VALUE));
             }
 
             let user_id = await User.findOne({
                 where :{
-                    name : user_name
+                    kakao_id : kakao_id
                 },
                 attributes : ['id']
             });
@@ -290,14 +290,14 @@ module.exports = {
 
         try {
 
-            const user_name = req.params.userName;
-            if (!user_name) {
+            const kakao_id = req.params.kakaoId;
+            if (!kakao_id) {
                 return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.NULL_VALUE));
             }
 
             const user = await User.findOne({
                 where : {
-                    name : user_name
+                    kakao_id : kakao_id
                 },
                 attributes : ['id', 'current_group_id']
             });
@@ -308,7 +308,7 @@ module.exports = {
             // 현 그룹 0으로 초기화
             const updateCurrentGroup = await User.update({current_group_id : 0}, {
                 where : {
-                    name : user_name
+                    id : user.id
                 },
             });
 

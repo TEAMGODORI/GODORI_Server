@@ -12,22 +12,22 @@ module.exports = {
 
         try {
 
-            const user_name = req.params.userName;
+            const kakao_id = req.params.kakaoId;
             // null 값 처리
-            if (!user_name) {
+            if (!kakao_id) {
                 console.log(message.NULL_VALUE);
                 return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.NULL_VALUE));
             }
 
             const user = await User.findOne({
                 where : {
-                    name : user_name
+                    kakao_id : kakao_id
                 },
-                attributes : ['id', 'current_group_id', 'profile_img']
+                attributes : ['id', 'nickname', 'current_group_id', 'profile_img']
             });
 
             const profile = {
-                name : user_name,
+                name : user.nickname,
                 image : user.profile_img
             }
 
