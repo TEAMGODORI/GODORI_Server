@@ -14,9 +14,9 @@ module.exports = {
 
         try {
             const { group_name, recruit_num, is_public, intro_comment,
-            ex_cycle, ex_intensity, group_sport, group_maker } = req.body; 
+            ex_cycle, ex_intensity, group_sport, kakao_id } = req.body; 
 
-            if (!group_name || !recruit_num || !group_maker) {
+            if (!group_name || !recruit_num || !kakao_id) {
                 return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.NULL_VALUE));
             } else if (is_public === null) {
                 is_public = false;
@@ -24,6 +24,19 @@ module.exports = {
                 ex_cycle = 3;
             } else if (!ex_intensity) {
                 ex_intensity = "중";
+            }
+
+            // find User
+            const user = await User.findOne({
+                where : {
+                    kakao_id : kakao_id,
+                },
+                attributes : ['id', 'nickname'],
+                raw : true
+            });
+
+            if (!user) {
+                return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.CANNOT_FIND_GROUP));
             }
 
             const group_image = await groupService.putGroupImage(group_sport);
@@ -37,7 +50,7 @@ module.exports = {
                 ex_intensity,
                 group_sport,
                 group_image,
-                group_maker
+                group_maker : user.nickname
             });
 
             const signupFirstMem = await groupService.signUpFirstMember(group_name, group_maker);
@@ -71,7 +84,7 @@ module.exports = {
                 where : {
                     kakao_id : kakao_id,
                 },
-                attributes : ['id', 'name', 'ex_cycle', 'ex_intensity'],
+                attributes : ['id', ['nickname', 'name'], 'ex_cycle', 'ex_intensity'],
                 raw : true
             });
 

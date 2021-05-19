@@ -122,7 +122,7 @@ module.exports = {
                 where : {
                     id : certi.user_id
                 },
-                attributes : ['id', 'name', 'profile_img'],
+                attributes : ['id', ['nickname','name'], 'profile_img'],
                 raw : true
             });
             
@@ -206,7 +206,7 @@ module.exports = {
                     where : {
                         id : certi.user_id
                     },
-                    attributes : ['name', 'profile_img']
+                    attributes : [['nickname','name'], 'profile_img']
                 });
                 
                 certi.user_name = certiUser.name;

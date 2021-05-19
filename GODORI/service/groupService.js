@@ -92,7 +92,7 @@ module.exports = {
 
             const findGroupMaker = await User.findOne({
                 where : {
-                    name : group_maker,
+                    nickname : group_maker,
                 },
                 attributes : ['id']
             });
@@ -262,7 +262,7 @@ module.exports = {
                 where : {
                     current_group_id : group_id
                 },
-                attributes : ['id', 'name', 'profile_img'],
+                attributes : ['id', ['nickname', 'name'], 'profile_img'],
                 raw : true,
             });
             if (!members) {
@@ -315,7 +315,7 @@ module.exports = {
                 where : {
                     current_group_id : group_id
                 },
-                attributes : ['id', 'name', 'profile_img']
+                attributes : ['id', ['nickname','name'], 'profile_img']
             }); 
 
             let todayJoiners = [];
