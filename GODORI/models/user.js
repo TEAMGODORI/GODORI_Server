@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
         },
         kakao_id: { // 카카오톡 회원 id
-            type: DataTypes.INTEGER,
+            type: DataTypes.BIGINT,
             allowNull: true,
         },
         profile_img: { // 프로필 이미지
