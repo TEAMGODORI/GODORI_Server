@@ -48,7 +48,7 @@ module.exports = {
 
             }
         
-            const certi_list = await myPageService.formatCertiImage(user.id);
+            let certi_list = await myPageService.formatCertiImage(user.id);
 
             if (certi_list == 0) {
                 console.log(message.NO_CERTI_YET);
