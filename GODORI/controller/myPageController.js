@@ -52,7 +52,8 @@ module.exports = {
 
             if (certi_list == 0) {
                 console.log(message.NO_CERTI_YET);
-                return res.status(code.OK).send(util.success(code.OK, message.NO_CERTI_YET));
+                certi_list = []
+                //return res.status(code.OK).send(util.success(code.OK, message.NO_CERTI_YET));
             }
 
             return res.status(code.OK).send(util.success(code.OK, message.GET_MYPAGE_INFO_SUCCESS, {profile, join, certi_list}));
