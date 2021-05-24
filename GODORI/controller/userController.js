@@ -135,7 +135,8 @@ module.exports = {
                 where : {
                     kakao_id
                 },
-                attributes : ['id', 'nickname', 'current_group_id']
+                attributes : ['id', 'nickname', 'current_group_id'],
+                raw : true,
             });
 
             console.log(user)
