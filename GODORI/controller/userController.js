@@ -139,10 +139,7 @@ module.exports = {
                 raw : true,
             });
 
-            console.log(user)
-            console.log(user.length)
-
-            if (user == []) { // 첫로그인 이라면 계속 진행
+            if (user == null) { // 첫로그인 이라면 계속 진행
                 return res.status(code.OK).send(util.success(code.OK, message.FIRST_LOGIN, 1));
 
             } else { // 첫로그인이 아니라면
