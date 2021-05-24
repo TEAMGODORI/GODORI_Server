@@ -12,7 +12,7 @@ module.exports = {
                 where : {
                     user_id
                 },
-                attributes : ['id'],
+                attributes : ['id', 'created_at'],
                 order : [['created_at', 'DESC']],
                 raw : true,
             });
