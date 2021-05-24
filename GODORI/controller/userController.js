@@ -140,6 +140,7 @@ module.exports = {
             });
 
             console.log(user)
+            console.log(user.length)
 
             if (user == []) { // 첫로그인 이라면 계속 진행
                 return res.status(code.OK).send(util.success(code.OK, message.FIRST_LOGIN, 1));
