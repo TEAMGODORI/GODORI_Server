@@ -50,10 +50,12 @@ module.exports = {
                     user_id,
                     group_id
                 },
-                attributes : ['created_at']
+                attributes : ['created_at'],
+                raw: true,
             });
             const joinDate = join.created_at;
             console.log(join);
+            console.log(joinDate);
 
             const today = await getTodayDate();
             let td = today;
