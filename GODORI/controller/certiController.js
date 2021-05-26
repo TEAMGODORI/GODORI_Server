@@ -67,6 +67,7 @@ module.exports = {
 
             const addCountRate = await certiService.countAndRate(user.id, user.current_group_id);
 
+            console.log(certi_sport);
             const certiSports = certi_sport.split(",");
             for (sport of certiSports) {
 
@@ -78,7 +79,7 @@ module.exports = {
                     attributes : ['id'],
                     raw: true,
                 })
-
+                console.log(sportName);
                 //  인증 운동종목 저장
                 let newCertiSports = await CertiSport.create({
                     certi_id: newCerti.id,
