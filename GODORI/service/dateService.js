@@ -1,4 +1,4 @@
-const { Group }  = require('../models/');
+const { Group, Join }  = require('../models/');
 const moment = require('moment');
 
 const getTodayDate = async () => {
