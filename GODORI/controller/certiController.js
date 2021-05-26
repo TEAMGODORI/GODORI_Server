@@ -75,7 +75,8 @@ module.exports = {
                     where : {
                         name: sport
                     },
-                    attributes : ['id']
+                    attributes : ['id'],
+                    raw: true,
                 })
 
                 //  인증 운동종목 저장
