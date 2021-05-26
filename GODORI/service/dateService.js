@@ -54,14 +54,14 @@ module.exports = {
                 raw: true,
             });
             const joinDate = join.created_at;
-            console.log(join);
-            console.log(joinDate);
 
             const today = await getTodayDate();
             let td = today;
 
             const diff = td.getTime()- joinDate.getTime();
+            const hrDiff = diff / 3600000;
             const dayDiff = hrDiff / 24;
+            
             if (dayDiff >= 14) {
                 return 1;
             } else {
