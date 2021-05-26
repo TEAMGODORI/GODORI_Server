@@ -231,6 +231,7 @@ module.exports = {
                 return res.status(code.BAD_REQUEST).send(util.fail(code.BAD_REQUEST, message.NULL_VALUE));
             }
 
+            // user
             const user = await User.findOne({
                 where : {
                     kakao_id : kakao_id
@@ -244,7 +245,32 @@ module.exports = {
             if (group_id == 0) {
                 return res.status(code.OK).send(util.success(code.OK, message.NO_SIGNEDUP_GROUP, {group_id}));
             }
-            const left_count = await groupService.getWeekLeftCount(user);
+            
+            // 2주 활동 없을 시 탈퇴
+            const inactivityMember = await dateService.isInactivity(user.id, group_id);
+            if (inactivityMember) {
+
+                // 현 그룹 0으로 초기화
+                const kickMember = await User.update({current_group_id : 0}, {
+                    where : {
+                        id : user.id
+                    },
+                });
+
+                // join delete
+                const deleteJoin = await Join.destroy({
+                    where : {
+                        user_id : user.id,
+                        group_id
+                    }
+                });
+
+                // 남은 멤버 없을 시 그룹 삭제
+                const deleteGroup = await groupService.deleteEmptyGroup(group_id);
+
+                return res.status(code.OK).send(util.success(code.OK, message.KICKOUT_SUCCESS));
+            }
+
 
             // group
             const group = await Group.findOne({
@@ -254,6 +280,7 @@ module.exports = {
                 attributes : ['group_name', 'ex_cycle']
             });
             const group_name = group.group_name;
+            const left_count = await groupService.getWeekLeftCount(user);
             const group_cycle = group.ex_cycle;
 
             // member

@@ -17,6 +17,7 @@ module.exports = {
     USER_LOGIN_SUCCESS: "로그인 성공",
     FIRST_LOGIN: "첫 로그인 입니다",
     NOT_FIRST_LOGIN: "첫 로그인이 아닙니다",
+    KICKOUT_SUCCESS: "2주간 활동이 없어 강퇴되었습니다",
 
     /*Group */
     NO_GROUP_NAME : '그룹 제목이 비었습니다',

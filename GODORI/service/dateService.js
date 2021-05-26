@@ -39,5 +39,36 @@ module.exports = {
             throw err;
         }
     
+    },
+
+    isInactivity : async (user_id, group_id) => {
+
+        try {
+
+            const join = await Join.findOne({
+                where : {
+                    user_id,
+                    group_id
+                },
+                attributes : ['created_at']
+            });
+            const joinDate = join.created_at;
+
+            const today = await getTodayDate();
+            let td = today;
+
+            const diff = td.getTime()- joinDate.getTime();
+            const dayDiff = hrDiff / 24;
+            if (dayDiff >= 14) {
+                return 1;
+            } else {
+                return 0;
+            }
+
+
+        } catch (err) {
+            console.error(err);
+            throw err;
+        }
     }
 }
