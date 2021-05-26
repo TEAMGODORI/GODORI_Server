@@ -53,7 +53,7 @@ module.exports = {
                 attributes : ['created_at']
             });
             const joinDate = join.created_at;
-            console.log(joinDate);
+            console.log(join);
 
             const today = await getTodayDate();
             let td = today;
