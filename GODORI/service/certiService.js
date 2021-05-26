@@ -209,7 +209,7 @@ module.exports = {
                     attributes : [['nickname','name'], 'profile_img'],
                     raw: true,
                 });
-                
+                console.log(certiUser);
                 certi.user_name = certiUser.name;
                 
                 if (certiUser.profile_img) {
