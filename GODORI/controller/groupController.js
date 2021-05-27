@@ -246,30 +246,30 @@ module.exports = {
                 return res.status(code.OK).send(util.success(code.OK, message.NO_SIGNEDUP_GROUP, {group_id}));
             }
             
-            // 2주 활동 없을 시 탈퇴
-            const inactivityMember = await dateService.isInactivity(user.id, group_id);
-            if (inactivityMember) {
+            // // 2주 활동 없을 시 탈퇴
+            // const inactivityMember = await dateService.isInactivity(user.id, group_id);
+            // if (inactivityMember) {
 
-                // 현 그룹 0으로 초기화
-                const kickMember = await User.update({current_group_id : 0}, {
-                    where : {
-                        id : user.id
-                    },
-                });
+            //     // 현 그룹 0으로 초기화
+            //     const kickMember = await User.update({current_group_id : 0}, {
+            //         where : {
+            //             id : user.id
+            //         },
+            //     });
 
-                // join delete
-                const deleteJoin = await Join.destroy({
-                    where : {
-                        user_id : user.id,
-                        group_id
-                    }
-                });
+            //     // join delete
+            //     const deleteJoin = await Join.destroy({
+            //         where : {
+            //             user_id : user.id,
+            //             group_id
+            //         }
+            //     });
 
-                // 남은 멤버 없을 시 그룹 삭제
-                const deleteGroup = await groupService.deleteEmptyGroup(group_id);
+            //     // 남은 멤버 없을 시 그룹 삭제
+            //     const deleteGroup = await groupService.deleteEmptyGroup(group_id);
 
-                return res.status(code.OK).send(util.success(code.OK, message.KICKOUT_SUCCESS));
-            }
+            //     return res.status(code.OK).send(util.success(code.OK, message.KICKOUT_SUCCESS));
+            // }
 
 
             // group
