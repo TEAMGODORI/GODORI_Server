@@ -36,19 +36,19 @@ module.exports = {
             'https://godori.s3.ap-northeast-2.amazonaws.com/images/origin/1622469467751.png',
             'https://godori.s3.ap-northeast-2.amazonaws.com/images/origin/1622469480192.png')
 
-            const health = new Array ('https://godori.s3.ap-northeast-2.amazonaws.com/images/origin/1622469480192.png',
-            'https://godori.s3.ap-northeast-2.amazonaws.com/images/origin/1622468281868.JPG')
+            const health = new Array ('https://godori.s3.ap-northeast-2.amazonaws.com/images/origin/1622469715170.png',
+            'https://godori.s3.ap-northeast-2.amazonaws.com/images/origin/1622469705276.png')
 
-            const running = new Array ('https://beme-bucket.s3.ap-northeast-2.amazonaws.com/images/origin/1619939829808.png')
+            const running = new Array ('https://godori.s3.ap-northeast-2.amazonaws.com/images/origin/1622628975406.png')
 
             const bicycle = new Array('https://godori.s3.ap-northeast-2.amazonaws.com/images/origin/1622468517798.png',
             'https://godori.s3.ap-northeast-2.amazonaws.com/images/origin/1622469147738.png',
             'https://godori.s3.ap-northeast-2.amazonaws.com/images/origin/1622469160769.png')
 
-            const swimming = new Array('https://beme-bucket.s3.ap-northeast-2.amazonaws.com/images/origin/1619941160835.png',
-            'https://beme-bucket.s3.ap-northeast-2.amazonaws.com/images/origin/1619941165344.png')
+            const swimming = new Array('https://godori.s3.ap-northeast-2.amazonaws.com/images/origin/1622629086099.png',
+            'https://godori.s3.ap-northeast-2.amazonaws.com/images/origin/1622629128996.png')
 
-            const mount = new Array('https://beme-bucket.s3.ap-northeast-2.amazonaws.com/images/origin/1619941218961.png')
+            const mount = new Array('https://godori.s3.ap-northeast-2.amazonaws.com/images/origin/1622629022667.png')
 
 
 
