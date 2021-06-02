@@ -32,18 +32,18 @@ module.exports = {
 
             let image_uri = "";
 
-            const yogaPilte = new Array('https://beme-bucket.s3.ap-northeast-2.amazonaws.com/images/origin/1619939685923.png',
-            'https://beme-bucket.s3.ap-northeast-2.amazonaws.com/images/origin/1619939698887.png',
-            'https://beme-bucket.s3.ap-northeast-2.amazonaws.com/images/origin/1619939737828.png')
+            const yogaPilte = new Array('https://godori.s3.ap-northeast-2.amazonaws.com/images/origin/1622469453970.png',
+            'https://godori.s3.ap-northeast-2.amazonaws.com/images/origin/1622469467751.png',
+            'https://godori.s3.ap-northeast-2.amazonaws.com/images/origin/1622469480192.png')
 
-            const health = new Array ('https://beme-bucket.s3.ap-northeast-2.amazonaws.com/images/origin/1619939753150.png',
-            'https://beme-bucket.s3.ap-northeast-2.amazonaws.com/images/origin/1619939886604.png')
+            const health = new Array ('https://godori.s3.ap-northeast-2.amazonaws.com/images/origin/1622469480192.png',
+            'https://godori.s3.ap-northeast-2.amazonaws.com/images/origin/1622468281868.JPG')
 
             const running = new Array ('https://beme-bucket.s3.ap-northeast-2.amazonaws.com/images/origin/1619939829808.png')
 
-            const bicycle = new Array('https://beme-bucket.s3.ap-northeast-2.amazonaws.com/images/origin/1619941022092.png',
-            'https://beme-bucket.s3.ap-northeast-2.amazonaws.com/images/origin/1619941028235.png',
-            'https://beme-bucket.s3.ap-northeast-2.amazonaws.com/images/origin/1619941033260.png')
+            const bicycle = new Array('https://godori.s3.ap-northeast-2.amazonaws.com/images/origin/1622468517798.png',
+            'https://godori.s3.ap-northeast-2.amazonaws.com/images/origin/1622469147738.png',
+            'https://godori.s3.ap-northeast-2.amazonaws.com/images/origin/1622469160769.png')
 
             const swimming = new Array('https://beme-bucket.s3.ap-northeast-2.amazonaws.com/images/origin/1619941160835.png',
             'https://beme-bucket.s3.ap-northeast-2.amazonaws.com/images/origin/1619941165344.png')
