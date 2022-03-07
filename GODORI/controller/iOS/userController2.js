@@ -23,7 +23,9 @@ const rule = new sch.RecurrenceRule();
 // })
 
 module.exports = {
-    signup: async (req, res) => {
+
+    // iOS 회원가입
+    signup2: async (req, res) => {
         const { email, nickname, password} = req.body;
         
         if (! email || ! password || ! nickname) {
@@ -67,7 +69,8 @@ module.exports = {
         }
     },
 
-    login : async (req, res) => {
+    // iOS 로그인
+    signIn2 : async (req, res) => {
         try {
 
             const {name, nickname, profile_img, kakao_id, user_sport} = req.body;
@@ -114,90 +117,8 @@ module.exports = {
         }
     },
 
-    // isFirstLogin : async (req, res) => {
-
-    //     try {
-
-    //         const kakao_id = req.params.kakaoId;
-
-    //         const user = await User.findOne({
-    //             where : {
-    //                 kakao_id
-    //             },
-    //             attributes : ['id', 'nickname', 'current_group_id']
-    //         });
-
-    //         if (user.length == 0) { // 첫로그인 이라면 계속 진행
-    //             return res.status(code.OK).send(util.success(code.OK, message.FIRST_LOGIN, 1));
-
-    //         } else { // 첫로그인이 아니라면
-
-    //             const group_id = user.current_group_id;
-
-    //             if (group_id == 0) { // 사용자가 가입한 그룹이 없다면 가입 전 그룹탭
-    //                 return res.status(code.OK).send(util.success(code.OK, message.NOT_FIRST_BUT_NOGROUP, {group_id}));
-
-    //             } else { // 사용자가 가입한 그룹이 있다면 가입 후 그룹탭
-
-    //                 const left_count = await groupService.getWeekLeftCount(user);
-
-    //                 // group
-    //                 const group = await Group.findOne({
-    //                     where : {
-    //                         id : group_id
-    //                     },
-    //                     attributes : ['group_name', 'ex_cycle']
-    //                 });
-    //                 const group_name = group.group_name;
-    //                 const group_cycle = group.ex_cycle;
-
-    //                 // member
-    //                 const member_list = await groupService.getMemberCount(group_id);
-    //                 const today_member = member_list[0];
-    //                 const not_today_member = member_list[1];
-                
-    //                 return res.status(code.OK).send(util.success(code.OK, message.GET_AFTER_SIGNUP_INFO,
-    //                     {group_id, group_name, left_count, group_cycle, today_member, not_today_member}));
-
-    //             }
-
-    //         }
-
-    //     } catch (err) {
-    //         console.error(err);
-    //         return res.status(code.INTERNAL_SERVER_ERROR).send(util.fail(code.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR));
-    //     }
-    // },
-
-    isFirstLogin : async (req, res) => {
-
-        try {
-
-            const kakao_id = req.params.kakaoId;
-
-            const user = await User.findOne({
-                where : {
-                    kakao_id
-                },
-                attributes : ['id', 'nickname', 'current_group_id'],
-                raw : true,
-            });
-
-            if (user == null) { // 첫로그인 이라면 계속 진행
-                return res.status(code.OK).send(util.success(code.OK, message.FIRST_LOGIN, 1));
-
-            } else { // 첫로그인이 아니라면
-                return res.status(code.OK).send(util.success(code.OK, message.NOT_FIRST_LOGIN, parseInt(kakao_id)));
-
-            }
-
-        } catch (err) {
-            console.error(err);
-            return res.status(code.INTERNAL_SERVER_ERROR).send(util.fail(code.INTERNAL_SERVER_ERROR, message.INTERNAL_SERVER_ERROR));
-        }
-    },
-
-    updateExPrefer : async (req, res) => {
+    // iOS 목표 운동 횟수 수정
+    updateExPrefer2 : async (req, res) => {
 
         try {
 
